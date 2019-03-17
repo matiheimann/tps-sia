@@ -28,7 +28,8 @@ public class GPSEngine {
 	protected SearchStrategy strategy;
 
 	public GPSEngine(Problem problem, SearchStrategy strategy, Heuristic heuristic) {
-		// TODO: open = *Su queue favorito, TENIENDO EN CUENTA EL ORDEN DE LOS NODOS*
+		// ̶T̶O̶D̶O: open = *Su queue favorito, TENIENDO EN CUENTA EL ORDEN DE LOS NODOS*
+		open = new PriorityQueue<>(strategy);
 		bestCosts = new HashMap<>();
 		this.problem = problem;
 		this.strategy = strategy;
@@ -41,16 +42,49 @@ public class GPSEngine {
 	public void findSolution() {
 		GPSNode rootNode = new GPSNode(problem.getInitState(), 0, null);
 		open.add(rootNode);
-		// TODO: ¿Lógica de IDDFS?
-		while (open.size() <= 0) {
-			GPSNode currentNode = open.remove();
-			if (problem.isGoal(currentNode.getState())) {
-				finished = true;
-				solutionNode = currentNode;
-				return;
-			} else {
-				explode(currentNode);
+		// ̶T̶O̶D̶O: ¿Lógica de IDDFS?
+		if (strategy == SearchStrategy.IDDFS) {
+			findSolutionIDDFS();
+		} else {
+			while (open.size() > 0) {
+				GPSNode currentNode = open.remove();
+				if (problem.isGoal(currentNode.getState())) {
+					finished = true;
+					solutionNode = currentNode;
+					return;
+				} else {
+					explode(currentNode);
+				}
 			}
+			failed = true;
+			finished = true;
+		}
+	}
+	
+	private void findSolutionIDDFS() {
+		int maxDepth = 0;
+		int currentDepth = 0;
+		while (currentDepth <= maxDepth) {
+			ArrayList<GPSNode> aux = new ArrayList<>();
+			while(open.size() > 0) {
+				GPSNode currentNode = open.remove();
+				if (problem.isGoal(currentNode.getState())) {
+					finished = true;
+					solutionNode = currentNode;
+					return;
+				} else {
+					if (currentNode.getDepth() == currentDepth) {
+						explode(currentNode);
+					} else {
+						aux.add(currentNode);
+					}
+				}
+			} 
+			if (aux.size() > 0) {
+				open.addAll(aux);
+				maxDepth++;
+			}
+			currentDepth++;
 		}
 		failed = true;
 		finished = true;
@@ -59,43 +93,55 @@ public class GPSEngine {
 	private void explode(GPSNode node) {
 		Collection<GPSNode> newCandidates;
 		switch (strategy) {
-		case BFS:
-			if (bestCosts.containsKey(node.getState())) {
-				return;
-			}
-			newCandidates = new ArrayList<>();
-			addCandidates(node, newCandidates);
-			// TODO: ¿Cómo se agregan los nodos a open en BFS?
-			break;
-		case DFS:
-			if (bestCosts.containsKey(node.getState())) {
-				return;
-			}
-			newCandidates = new ArrayList<>();
-			addCandidates(node, newCandidates);
-			// TODO: ¿Cómo se agregan los nodos a open en DFS?
-			break;
-		case IDDFS:
-			if (bestCosts.containsKey(node.getState())) {
-				return;
-			}
-			newCandidates = new ArrayList<>();
-			addCandidates(node, newCandidates);
-			// TODO: ¿Cómo se agregan los nodos a open en IDDFS?
-			break;
-		case GREEDY:
-			newCandidates = new PriorityQueue<>(/* TODO: Comparator! */);
-			addCandidates(node, newCandidates);
-			// TODO: ¿Cómo se agregan los nodos a open en GREEDY?
-			break;
-		case ASTAR:
-			if (!isBest(node.getState(), node.getCost())) {
-				return;
-			}
-			newCandidates = new ArrayList<>();
-			addCandidates(node, newCandidates);
-			// TODO: ¿Cómo se agregan los nodos a open en A*?
-			break;
+			case BFS:
+				if (bestCosts.containsKey(node.getState())) {
+					return;
+				}
+				newCandidates = new ArrayList<>();
+				addCandidates(node, newCandidates);
+				// T̶O̶D̶O: ¿Cómo se agregan los nodos a open en BFS?
+				for (GPSNode n : newCandidates) {
+					if (!bestCosts.containsKey(n.getState())) 
+						open.add(n);
+				}
+				break;
+			case DFS:
+				if (bestCosts.containsKey(node.getState())) {
+					return;
+				}
+				newCandidates = new ArrayList<>();
+				addCandidates(node, newCandidates);
+				// ̶T̶O̶D̶O: ¿Cómo se agregan los nodos a open en DFS?
+				for (GPSNode n : newCandidates) {
+					if (!bestCosts.containsKey(n.getState())) 
+						open.add(n);
+				}
+				break;
+			case IDDFS:
+				if (bestCosts.containsKey(node.getState())) {
+					return;
+				}
+				newCandidates = new ArrayList<>();
+				addCandidates(node, newCandidates);
+				// ̶T̶O̶D̶O: ¿Cómo se agregan los nodos a open en IDDFS?
+				for (GPSNode n : newCandidates) {
+					if (!bestCosts.containsKey(n.getState()))
+						open.add(n);
+				}
+				break;
+			case GREEDY:
+				newCandidates = new PriorityQueue<>(/* TODO: Comparator! */);
+				addCandidates(node, newCandidates);
+				// TODO: ¿Cómo se agregan los nodos a open en GREEDY?
+				break;
+			case ASTAR:
+				if (!isBest(node.getState(), node.getCost())) {
+					return;
+				}
+				newCandidates = new ArrayList<>();
+				addCandidates(node, newCandidates);
+				// TODO: ¿Cómo se agregan los nodos a open en A*?
+				break;
 		}
 	}
 
