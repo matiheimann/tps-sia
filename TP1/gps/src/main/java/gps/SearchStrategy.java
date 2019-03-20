@@ -31,7 +31,6 @@ public enum SearchStrategy implements Comparator<GPSNode> {
 	ASTAR {
 		@Override
 		public int compare(GPSNode o1, GPSNode o2) {
-			// TODO Auto-generated method stub
 			return 0;
 		}
 	};
