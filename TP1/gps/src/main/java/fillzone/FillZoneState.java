@@ -2,7 +2,7 @@ package fillzone;
 
 import gps.api.State;
 
-public class FillZoneState implements State{
+public class FillZoneState implements State {
 	
 	private Color[][] board;
 	
@@ -22,6 +22,12 @@ public class FillZoneState implements State{
 	@Override
 	public boolean equals(Object state) {
 		
+		if(state == null)
+			return false;
+		
+		if(this == state)
+			return true;
+		
 		if(state.getClass() != this.getClass())
 			return false;
 		
@@ -38,6 +44,10 @@ public class FillZoneState implements State{
 		
 		return true;
 		
+	}
+	
+	public Color[][] getBoard() {
+		return board;
 	}
 
 }

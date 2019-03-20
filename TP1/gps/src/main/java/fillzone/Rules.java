@@ -5,7 +5,7 @@ import java.util.Optional;
 import gps.api.Rule;
 import gps.api.State;
 
-public enum Rules implements Rule{
+public enum Rules implements Rule {
 	
 	FILL_WHITE{
 		@Override
