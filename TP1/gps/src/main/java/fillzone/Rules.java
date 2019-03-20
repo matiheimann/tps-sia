@@ -20,7 +20,7 @@ public enum Rules implements Rule{
 
 		@Override
 		public Optional<State> apply(State state) {
-			return this.applyRule(state, Color.WHITE);
+			return this.applyRule((FillZoneState)state, Color.WHITE);
 		}
 	}, 
 	
@@ -38,7 +38,7 @@ public enum Rules implements Rule{
 
 		@Override
 		public Optional<State> apply(State state) {
-			return this.applyRule(state, Color.RED);
+			return this.applyRule((FillZoneState)state, Color.RED);
 		}
 		
 	},
@@ -57,7 +57,7 @@ public enum Rules implements Rule{
 
 		@Override
 		public Optional<State> apply(State state) {
-			return this.applyRule(state, Color.BLUE);
+			return this.applyRule((FillZoneState)state, Color.BLUE);
 		}
 		
 	},
@@ -75,7 +75,7 @@ public enum Rules implements Rule{
 
 		@Override
 		public Optional<State> apply(State state) {
-			return this.applyRule(state, Color.YELLOW);
+			return this.applyRule((FillZoneState)state, Color.YELLOW);
 		}
 	}, 
 	
@@ -93,7 +93,7 @@ public enum Rules implements Rule{
 
 		@Override
 		public Optional<State> apply(State state) {
-			return this.applyRule(state, Color.PINK);
+			return this.applyRule((FillZoneState)state, Color.PINK);
 		}
 		
 	}, 
@@ -112,14 +112,18 @@ public enum Rules implements Rule{
 
 		@Override
 		public Optional<State> apply(State state) {
-			return this.applyRule(state, Color.GREEN);
+			return this.applyRule((FillZoneState)state, Color.GREEN);
 		}
 		
 	};
 	
 	public final int COST_APPLIANCE = 1;
 	
-	public Optional<State> applyRule(State state, Color color) {
+	public Optional<State> applyRule(FillZoneState state, Color color) {
+		FillZoneState fzs = (FillZoneState) state;
+		if(fzs.getRepresentation().charAt(0) - '0' == color.getValue()) {
+			return Optional.empty();
+		}
 		return null;
 	}
 	
