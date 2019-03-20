@@ -11,7 +11,7 @@ public class NeighbourHeuristic implements Heuristic {
 		Color[][] board = fState.getBoard();
 		boolean[][] visited = new boolean[board.length][board[0].length];
 		Color baseColor = board[0][0];
-		return navigate(0, 0, board, visited, baseColor);
+		return board.length * board[0].length - navigate(0, 0, board, visited, baseColor);
 	}
 	
 	private int navigate(int x, int y, Color[][] board, boolean[][] visited, Color baseColor) {
