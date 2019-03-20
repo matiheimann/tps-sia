@@ -6,6 +6,10 @@ public class FillZoneState implements State{
 	
 	private Color[][] board;
 	
+	public FillZoneState(Color[][] board) {
+		this.board = board;
+	}
+	
 	@Override
 	public String getRepresentation() {
 		StringBuffer representation = new StringBuffer("");
