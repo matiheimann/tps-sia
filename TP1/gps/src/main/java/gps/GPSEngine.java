@@ -28,7 +28,7 @@ public class GPSEngine {
 	protected SearchStrategy strategy;
 
 	public GPSEngine(Problem problem, SearchStrategy strategy, Heuristic heuristic) {
-		// ̶T̶O̶D̶O: open = *Su queue favorito, TENIENDO EN CUENTA EL ORDEN DE LOS NODOS*
+		// T̶O̶D̶O̶: open = *Su queue favorito, TENIENDO EN CUENTA EL ORDEN DE LOS NODOS*
 		open = new PriorityQueue<>(strategy);
 		bestCosts = new HashMap<>();
 		this.problem = problem;
@@ -42,7 +42,7 @@ public class GPSEngine {
 	public void findSolution() {
 		GPSNode rootNode = new GPSNode(problem.getInitState(), 0, null);
 		open.add(rootNode);
-		// ̶T̶O̶D̶O: ¿Lógica de IDDFS?
+		// T̶O̶D̶O̶: ¿Lógica de IDDFS?
 		if (strategy == SearchStrategy.IDDFS) {
 			findSolutionIDDFS();
 		} else {
@@ -99,10 +99,12 @@ public class GPSEngine {
 				}
 				newCandidates = new ArrayList<>();
 				addCandidates(node, newCandidates);
-				// T̶O̶D̶O: ¿Cómo se agregan los nodos a open en BFS?
+				// T̶O̶D̶O̶: ¿Cómo se agregan los nodos a open en BFS?
 				for (GPSNode n : newCandidates) {
-					if (!bestCosts.containsKey(n.getState())) 
+					if (!bestCosts.containsKey(n.getState())) {
 						open.add(n);
+						updateBest(n);
+					}
 				}
 				break;
 			case DFS:
@@ -111,10 +113,12 @@ public class GPSEngine {
 				}
 				newCandidates = new ArrayList<>();
 				addCandidates(node, newCandidates);
-				// ̶T̶O̶D̶O: ¿Cómo se agregan los nodos a open en DFS?
+				// T̶O̶D̶O̶: ¿Cómo se agregan los nodos a open en DFS?
 				for (GPSNode n : newCandidates) {
-					if (!bestCosts.containsKey(n.getState())) 
+					if (!bestCosts.containsKey(n.getState())) {
 						open.add(n);
+						updateBest(n);
+					}
 				}
 				break;
 			case IDDFS:
@@ -123,10 +127,12 @@ public class GPSEngine {
 				}
 				newCandidates = new ArrayList<>();
 				addCandidates(node, newCandidates);
-				// ̶T̶O̶D̶O: ¿Cómo se agregan los nodos a open en IDDFS?
+				// T̶O̶D̶O̶: ¿Cómo se agregan los nodos a open en IDDFS?
 				for (GPSNode n : newCandidates) {
-					if (!bestCosts.containsKey(n.getState()))
+					if (!bestCosts.containsKey(n.getState())) {
 						open.add(n);
+						updateBest(n);
+					}
 				}
 				break;
 			case GREEDY:
