@@ -6,12 +6,16 @@ public class FillZoneState implements State {
 	
 	private Color[][] board;
 	
+	public FillZoneState(Color[][] board) {
+		this.board = board;
+	}
+	
 	@Override
 	public String getRepresentation() {
 		StringBuffer representation = new StringBuffer("");
 		for(int i = 0; i < board.length; i++) {
 			for(int j = 0; j < board.length; j++) {
-				representation.append(board[i][j]);
+				representation.append(board[i][j].getValue());
 				representation.append(" ");
 			}
 			representation.append('\n');
@@ -39,7 +43,7 @@ public class FillZoneState implements State {
 		
 		for(int i = 0; i < this.board.length; i++)
 			for(int j = 0; j < this.board[0].length; j++)
-				if(this.board[i][j] != fzs.board[i][j])
+				if(this.board[i][j].getValue() != fzs.board[i][j].getValue())
 					return false;
 		
 		return true;
@@ -47,7 +51,7 @@ public class FillZoneState implements State {
 	}
 	
 	public Color[][] getBoard() {
-		return board;
+		return this.board;
 	}
 
 }
