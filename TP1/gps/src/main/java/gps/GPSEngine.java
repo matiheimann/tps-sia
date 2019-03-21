@@ -62,7 +62,7 @@ public class GPSEngine {
 	}
 	
 	private void findSolutionIDDFS() {
-		int maxDepth = 0;
+		int maxDepth = 0; // Poner maxDepth inicial optimo para el problema
 		int currentDepth = 0;
 		while (currentDepth <= maxDepth) {
 			ArrayList<GPSNode> aux = new ArrayList<>();
@@ -103,7 +103,6 @@ public class GPSEngine {
 				for (GPSNode n : newCandidates) {
 					if (!bestCosts.containsKey(n.getState())) {
 						open.add(n);
-						updateBest(n);
 					}
 				}
 				break;
@@ -117,7 +116,6 @@ public class GPSEngine {
 				for (GPSNode n : newCandidates) {
 					if (!bestCosts.containsKey(n.getState())) {
 						open.add(n);
-						updateBest(n);
 					}
 				}
 				break;
@@ -131,14 +129,20 @@ public class GPSEngine {
 				for (GPSNode n : newCandidates) {
 					if (!bestCosts.containsKey(n.getState())) {
 						open.add(n);
-						updateBest(n);
 					}
 				}
 				break;
 			case GREEDY:
-				newCandidates = new PriorityQueue<>(/* TODO: Comparator! */);
+				newCandidates = new PriorityQueue<>(/* T̶O̶D̶O̶: Comparator! */
+						(GPSNode o1, GPSNode o2)->Integer.compare(o1.getHeuristicValue(), o2.getHeuristicValue())
+				);
 				addCandidates(node, newCandidates);
-				// TODO: ¿Cómo se agregan los nodos a open en GREEDY?
+				// T̶O̶D̶O̶: ¿Cómo se agregan los nodos a open en GREEDY?
+				for (GPSNode n : newCandidates) {
+					if (!bestCosts.containsKey(n.getState())) {
+						open.add(n);
+					}
+				}
 				break;
 			case ASTAR:
 				if (!isBest(node.getState(), node.getCost())) {
@@ -146,7 +150,12 @@ public class GPSEngine {
 				}
 				newCandidates = new ArrayList<>();
 				addCandidates(node, newCandidates);
-				// TODO: ¿Cómo se agregan los nodos a open en A*?
+				// T̶O̶D̶O̶: ¿Cómo se agregan los nodos a open en A*?
+				for (GPSNode n : newCandidates) {
+					if (isBest(n.getState(), n.getCost())) {
+						open.add(n);
+					}
+				}
 				break;
 		}
 	}
@@ -157,7 +166,12 @@ public class GPSEngine {
 		for (Rule rule : problem.getRules()) {
 			Optional<State> newState = rule.apply(node.getState());
 			if (newState.isPresent()) {
-				GPSNode newNode = new GPSNode(newState.get(), node.getCost() + rule.getCost(), rule);
+				GPSNode newNode;
+				if (heuristic.isPresent())
+					newNode = new GPSNode(newState.get(), node.getParent(), node.getCost() + rule.getCost(), heuristic.get(), rule);
+				else {
+					newNode = new GPSNode(newState.get(), node.getParent(), node.getCost() + rule.getCost(), rule);
+				}
 				newNode.setParent(node);
 				candidates.add(newNode);
 			}

@@ -6,7 +6,7 @@ import gps.api.Problem;
 import gps.api.Rule;
 import gps.api.State;
 
-public class FillZoneProblem implements Problem{
+public class FillZoneProblem implements Problem {
 
 	@Override
 	public State getInitState() {
