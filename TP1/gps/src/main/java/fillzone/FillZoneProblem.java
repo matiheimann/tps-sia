@@ -15,8 +15,16 @@ public class FillZoneProblem implements Problem{
 
 	@Override
 	public boolean isGoal(State state) {
-		// TODO Auto-generated method stub
-		return false;
+		FillZoneState fzs = (FillZoneState) state;
+		Color[][] b = fzs.getBoard();
+		Color c = b[0][0];
+		
+		for(int i = 0; i < b.length; i++)
+			for(int j = 0; j < b[0].length; j++)
+				if(b[i][j].getValue() != c.getValue())
+					return false;
+		
+		return true;
 	}
 
 	@Override
