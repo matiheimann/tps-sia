@@ -1,5 +1,6 @@
 package gps;
 
+import gps.api.Heuristic;
 import gps.api.Rule;
 import gps.api.State;
 
@@ -10,20 +11,35 @@ public class GPSNode {
 	private GPSNode parent;
 
 	private Integer cost;
+	
+	private Integer heuristicValue;
 
 	private Rule generationRule;
 	
-	private int depth;
-
+	private Integer depth;
+	
 	public GPSNode(State state, Integer cost, Rule generationRule) {
 		this.state = state;
 		this.cost = cost;
 		this.generationRule = generationRule;
-		if (this.parent != null) {
-			this.depth = parent.getDepth() + 1;
-		} else {
-			this.depth = 0;
-		}
+		this.depth = 0;
+	}
+	
+	public GPSNode(State state, GPSNode parent, Integer cost, Rule generationRule) {
+		this.state = state;
+		this.parent = parent;
+		this.cost = cost;
+		this.generationRule = generationRule;
+		this.depth = parent.getDepth() + 1;
+	}
+
+	public GPSNode(State state, GPSNode parent, Integer cost, Heuristic heuristic, Rule generationRule) {
+		this.state = state;
+		this.parent = parent;
+		this.cost = cost;
+		this.heuristicValue = heuristic.getValue(state);
+		this.generationRule = generationRule;
+		this.depth = parent.getDepth() + 1;
 	}
 
 	public GPSNode getParent() {
@@ -79,8 +95,12 @@ public class GPSNode {
 		this.generationRule = generationRule;
 	}
 	
-	public int getDepth() {
+	public Integer getDepth() {
 		return depth;
+	}
+	
+	public Integer getHeuristicValue() {
+		return heuristicValue;
 	}
 
 }

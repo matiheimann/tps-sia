@@ -24,15 +24,13 @@ public enum SearchStrategy implements Comparator<GPSNode> {
 	GREEDY {
 		@Override
 		public int compare(GPSNode o1, GPSNode o2) {
-			// TODO Auto-generated method stub
-			return 0;
+			return BFS.compare(o1, o2);
 		}
 	}, 
 	ASTAR {
 		@Override
 		public int compare(GPSNode o1, GPSNode o2) {
-			// TODO Auto-generated method stub
-			return 0;
+			return Integer.compare(o1.getCost() + o1.getHeuristicValue(), o2.getCost() + o2.getHeuristicValue());
 		}
 	};
 }
