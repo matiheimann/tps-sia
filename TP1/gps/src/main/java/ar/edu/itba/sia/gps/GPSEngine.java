@@ -40,7 +40,11 @@ public class GPSEngine {
 	}
 
 	public void findSolution() {
-		GPSNode rootNode = new GPSNode(problem.getInitState(), 0, null);
+		GPSNode rootNode;
+		if (heuristic.isPresent())
+			rootNode = new GPSNode(problem.getInitState(), 0, heuristic.get().getValue(problem.getInitState()), null);
+		else
+			rootNode = new GPSNode(problem.getInitState(), 0, null);
 		open.add(rootNode);
 		// T̶O̶D̶O̶: ¿Lógica de IDDFS?
 		if (strategy == SearchStrategy.IDDFS) {
@@ -62,7 +66,7 @@ public class GPSEngine {
 	}
 	
 	private void findSolutionIDDFS() {
-		int maxDepth = 0; // Poner maxDepth inicial optimo para el problema
+		int maxDepth = 5; // Poner maxDepth inicial optimo para el problema
 		int currentDepth = 0;
 		while (currentDepth <= maxDepth) {
 			ArrayList<GPSNode> aux = new ArrayList<>();
@@ -73,15 +77,16 @@ public class GPSEngine {
 					solutionNode = currentNode;
 					return;
 				} else {
-					if (currentNode.getDepth() == currentDepth) {
+					if (currentNode.getDepth() <= maxDepth) {
 						explode(currentNode);
 					} else {
 						aux.add(currentNode);
 					}
 				}
-			} 
+			}
 			if (aux.size() > 0) {
 				open.addAll(aux);
+				currentDepth = maxDepth;
 				maxDepth++;
 			}
 			currentDepth++;
@@ -120,9 +125,6 @@ public class GPSEngine {
 				}
 				break;
 			case IDDFS:
-				if (bestCosts.containsKey(node.getState())) {
-					return;
-				}
 				newCandidates = new ArrayList<>();
 				addCandidates(node, newCandidates);
 				// T̶O̶D̶O̶: ¿Cómo se agregan los nodos a open en IDDFS?
@@ -133,9 +135,7 @@ public class GPSEngine {
 				}
 				break;
 			case GREEDY:
-				newCandidates = new PriorityQueue<>(/* T̶O̶D̶O̶: Comparator! */
-						(GPSNode o1, GPSNode o2)->Integer.compare(o1.getHeuristicValue(), o2.getHeuristicValue())
-				);
+				newCandidates = new ArrayList<>();
 				addCandidates(node, newCandidates);
 				// T̶O̶D̶O̶: ¿Cómo se agregan los nodos a open en GREEDY?
 				for (GPSNode n : newCandidates) {
@@ -168,7 +168,7 @@ public class GPSEngine {
 			if (newState.isPresent()) {
 				GPSNode newNode;
 				if (heuristic.isPresent())
-					newNode = new GPSNode(newState.get(), node, node.getCost() + rule.getCost(), heuristic.get(), rule);
+					newNode = new GPSNode(newState.get(), node, node.getCost() + rule.getCost(), heuristic.get().getValue(newState.get()), rule);
 				else {
 					newNode = new GPSNode(newState.get(), node, node.getCost() + rule.getCost(), rule);
 				}

@@ -24,7 +24,7 @@ public enum SearchStrategy implements Comparator<GPSNode> {
 	GREEDY {
 		@Override
 		public int compare(GPSNode o1, GPSNode o2) {
-			return BFS.compare(o1, o2);
+			return Integer.compare(o1.getHeuristicValue(), o2.getHeuristicValue());
 		}
 	}, 
 	ASTAR {

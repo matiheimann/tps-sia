@@ -1,6 +1,5 @@
 package ar.edu.itba.sia.gps;
 
-import ar.edu.itba.sia.gps.api.Heuristic;
 import ar.edu.itba.sia.gps.api.Rule;
 import ar.edu.itba.sia.gps.api.State;
 
@@ -25,6 +24,14 @@ public class GPSNode {
 		this.depth = 0;
 	}
 	
+	public GPSNode(State state, Integer cost, Integer heuristicValue, Rule generationRule) {
+		this.state = state;
+		this.cost = cost;
+		this.heuristicValue = heuristicValue;
+		this.generationRule = generationRule;
+		this.depth = 0;
+	}
+	
 	public GPSNode(State state, GPSNode parent, Integer cost, Rule generationRule) {
 		this.state = state;
 		this.parent = parent;
@@ -33,11 +40,11 @@ public class GPSNode {
 		this.depth = parent.getDepth() + 1;
 	}
 
-	public GPSNode(State state, GPSNode parent, Integer cost, Heuristic heuristic, Rule generationRule) {
+	public GPSNode(State state, GPSNode parent, Integer cost, Integer heuristicValue, Rule generationRule) {
 		this.state = state;
 		this.parent = parent;
 		this.cost = cost;
-		this.heuristicValue = heuristic.getValue(state);
+		this.heuristicValue = heuristicValue;
 		this.generationRule = generationRule;
 		this.depth = parent.getDepth() + 1;
 	}
