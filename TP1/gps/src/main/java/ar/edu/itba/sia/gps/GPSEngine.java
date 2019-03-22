@@ -1,4 +1,4 @@
-package gps;
+package ar.edu.itba.sia.gps;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -8,10 +8,10 @@ import java.util.Optional;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
-import gps.api.Heuristic;
-import gps.api.Problem;
-import gps.api.Rule;
-import gps.api.State;
+import ar.edu.itba.sia.gps.api.Heuristic;
+import ar.edu.itba.sia.gps.api.Problem;
+import ar.edu.itba.sia.gps.api.Rule;
+import ar.edu.itba.sia.gps.api.State;
 
 public class GPSEngine {
 
@@ -168,11 +168,10 @@ public class GPSEngine {
 			if (newState.isPresent()) {
 				GPSNode newNode;
 				if (heuristic.isPresent())
-					newNode = new GPSNode(newState.get(), node.getParent(), node.getCost() + rule.getCost(), heuristic.get(), rule);
+					newNode = new GPSNode(newState.get(), node, node.getCost() + rule.getCost(), heuristic.get(), rule);
 				else {
-					newNode = new GPSNode(newState.get(), node.getParent(), node.getCost() + rule.getCost(), rule);
+					newNode = new GPSNode(newState.get(), node, node.getCost() + rule.getCost(), rule);
 				}
-				newNode.setParent(node);
 				candidates.add(newNode);
 			}
 		}

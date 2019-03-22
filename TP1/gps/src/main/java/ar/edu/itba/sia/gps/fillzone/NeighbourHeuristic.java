@@ -1,7 +1,7 @@
-package fillzone;
+package ar.edu.itba.sia.gps.fillzone;
 
-import gps.api.Heuristic;
-import gps.api.State;
+import ar.edu.itba.sia.gps.api.Heuristic;
+import ar.edu.itba.sia.gps.api.State;
 
 public class NeighbourHeuristic implements Heuristic {
 

@@ -1,11 +1,11 @@
-package fillzone;
+package ar.edu.itba.sia.gps.fillzone;
 
 import java.util.LinkedList;
 import java.util.Optional;
 import java.util.Queue;
 
-import gps.api.Rule;
-import gps.api.State;
+import ar.edu.itba.sia.gps.api.Rule;
+import ar.edu.itba.sia.gps.api.State;
 
 public enum Rules implements Rule {
 	

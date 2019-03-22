@@ -1,10 +1,10 @@
-package fillzone;
+package ar.edu.itba.sia.gps.fillzone;
 
 import java.util.List;
 
-import gps.api.Problem;
-import gps.api.Rule;
-import gps.api.State;
+import ar.edu.itba.sia.gps.api.Problem;
+import ar.edu.itba.sia.gps.api.Rule;
+import ar.edu.itba.sia.gps.api.State;
 
 public class FillZoneProblem implements Problem {
 

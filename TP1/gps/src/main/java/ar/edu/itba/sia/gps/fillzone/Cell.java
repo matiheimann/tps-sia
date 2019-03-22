@@ -1,4 +1,4 @@
-package fillzone;
+package ar.edu.itba.sia.gps.fillzone;
 
 public class Cell{
 	
