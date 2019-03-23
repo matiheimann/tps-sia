@@ -23,6 +23,8 @@ public class GPSEngine {
 	boolean failed;
 	GPSNode solutionNode;
 	Optional<Heuristic> heuristic;
+	
+	long elapsedTime;
 
 	// Use this variable in open set order.
 	protected SearchStrategy strategy;
@@ -33,13 +35,14 @@ public class GPSEngine {
 		bestCosts = new HashMap<>();
 		this.problem = problem;
 		this.strategy = strategy;
-		this.heuristic = Optional.of(heuristic);
+		this.heuristic = Optional.ofNullable(heuristic);
 		explosionCounter = 0;
 		finished = false;
 		failed = false;
 	}
 
 	public void findSolution() {
+		long startTime = System.currentTimeMillis();
 		GPSNode rootNode;
 		if (heuristic.isPresent())
 			rootNode = new GPSNode(problem.getInitState(), 0, heuristic.get().getValue(problem.getInitState()), null);
@@ -55,6 +58,7 @@ public class GPSEngine {
 				if (problem.isGoal(currentNode.getState())) {
 					finished = true;
 					solutionNode = currentNode;
+					elapsedTime = System.currentTimeMillis() - startTime;
 					return;
 				} else {
 					explode(currentNode);
