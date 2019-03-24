@@ -15,21 +15,21 @@ public class NeighbourHeuristic implements Heuristic {
 	}
 	
 	private int navigate(int x, int y, Color[][] board, boolean[][] visited, Color baseColor) {
-		visited[x][y] = true;
-		if(!board[x][y].equals(baseColor)) {
+		visited[y][x] = true;
+		if(!board[y][x].equals(baseColor)) {
 			return 0;
 		}
 		int n = 1;
-		if((x + 1 < board.length) && !visited[x+1][y]) {
+		if((x + 1 < board.length) && !visited[y][x+1]) {
 			n += navigate(x+1, y, board, visited, baseColor);
 		}
-		if((x - 1 >= 0) && !visited[x-1][y]) {
+		if((x - 1 >= 0) && !visited[y][x-1]) {
 			n += navigate(x-1, y, board, visited, baseColor);
 		}
-		if((y + 1 < board[0].length) && !visited[x][y+1]) {
+		if((y + 1 < board[0].length) && !visited[y+1][x]) {
 			n += navigate(x, y+1, board, visited, baseColor);
 		}
-		if((y - 1 >= 0) && !visited[x][y-1]) {
+		if((y - 1 >= 0) && !visited[y-1][x]) {
 			n += navigate(x, y-1, board, visited, baseColor);
 		}
 		return n;

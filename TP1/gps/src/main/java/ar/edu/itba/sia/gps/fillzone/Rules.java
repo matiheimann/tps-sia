@@ -1,9 +1,7 @@
 package ar.edu.itba.sia.gps.fillzone;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Optional;
 import java.util.Queue;
 
@@ -72,7 +70,7 @@ public enum Rules implements Rule {
 			newBoard[i] = Arrays.copyOf(b[i], b[i].length);
 	    }
 		
-		List<Cell> checked = new ArrayList<>();
+		boolean[][] checked = new boolean[b.length][b[0].length];
 		Queue<Cell> q = new LinkedList<>();
 		q.add(new Cell(0, 0));
 		
@@ -81,30 +79,26 @@ public enum Rules implements Rule {
 			newBoard[c.y][c.x] = color;
 			
 			if(c.y != 0 && newBoard[c.y - 1][c.x] == b[0][0]) {
-				Cell neighbour = new Cell(c.x, c.y - 1);
-				if (!checked.contains(neighbour))
-					q.add(neighbour);
+				if (!checked[c.y - 1][c.x])
+					q.add(new Cell(c.x, c.y - 1));
 			}
 			
 			if(c.y != b.length - 1 && newBoard[c.y + 1][c.x] == b[0][0]) {
-				Cell neighbour = new Cell(c.x, c.y + 1);
-				if (!checked.contains(neighbour))
-					q.add(neighbour);
+				if (!checked[c.y + 1][c.x])
+					q.add(new Cell(c.x, c.y + 1));
 			}
 			
 			if(c.x != 0 && newBoard[c.y][c.x - 1] == b[0][0]) {
-				Cell neighbour = new Cell(c.x - 1, c.y);
-				if (!checked.contains(neighbour))
-					q.add(neighbour);
+				if (!checked[c.y][c.x - 1])
+					q.add(new Cell(c.x - 1, c.y));
 			}
 			
 			if(c.x != b[0].length - 1 && newBoard[c.y][c.x + 1] == b[0][0]) {
-				Cell neighbour = new Cell(c.x + 1, c.y);
-				if (!checked.contains(neighbour))
-					q.add(neighbour);
+				if (!checked[c.y][c.x + 1])
+					q.add(new Cell(c.x + 1, c.y));
 			}
 			
-			checked.add(c);
+			checked[c.y][c.x] = true;
 		}
 		
 		State s = new FillZoneState(newBoard);
