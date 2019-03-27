@@ -139,9 +139,6 @@ public class GPSEngine {
 				}
 				break;
 			case GREEDY:
-				if (bestCosts.containsKey(node.getState())) {
-					return;
-				}
 				newCandidates = new ArrayList<>();
 				addCandidates(node, newCandidates);
 				// T̶O̶D̶O̶: ¿Cómo se agregan los nodos a open en GREEDY?
