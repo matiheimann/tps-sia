@@ -63,6 +63,13 @@ public class NoSolutionTests {
 	}
 	
 	private static void noSolutionDifferExplosionCount(GPSEngine engineLesser, GPSEngine engineGreater){
+		assert engineLesser.getExplosionCounter() <= engineGreater.getExplosionCounter() :
+			MessageFormat.format("After findSolution with no solution, {0} should have greater or equal explosion counter than {1}. " +
+					"{0} explosion count: {2}, {1} explosion count: {3}", engineGreater.getStrategy().name(), engineLesser.getStrategy().name(),
+				engineGreater.getExplosionCounter(), engineLesser.getExplosionCounter());
+	}
+	
+	private static void noSolutionStrictDifferExplosionCount(GPSEngine engineLesser, GPSEngine engineGreater){
 		assert engineLesser.getExplosionCounter() < engineGreater.getExplosionCounter() :
 			MessageFormat.format("After findSolution with no solution, {0} should have greater explosion counter than {1}. " +
 					"{0} explosion count: {2}, {1} explosion count: {3}", engineGreater.getStrategy().name(), engineLesser.getStrategy().name(),
@@ -114,7 +121,7 @@ public class NoSolutionTests {
 	
 	@Test
 	public void noSolutionDFSVsIDDFS(){
-		noSolutionDifferExplosionCount(dfsEngine, iddfsEngine);
+		noSolutionStrictDifferExplosionCount(dfsEngine, iddfsEngine);
 		noSolutionSameStatesCount(dfsEngine,iddfsEngine);
 		
 	}
