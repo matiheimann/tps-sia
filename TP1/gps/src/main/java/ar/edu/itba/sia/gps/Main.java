@@ -8,6 +8,7 @@ import java.util.LinkedList;
 
 import ar.edu.itba.sia.gps.api.Heuristic;
 import ar.edu.itba.sia.gps.fillzone.Color;
+import ar.edu.itba.sia.gps.fillzone.ColorHeuristic;
 import ar.edu.itba.sia.gps.fillzone.FillZoneProblem;
 import ar.edu.itba.sia.gps.fillzone.FillZoneState;
 import ar.edu.itba.sia.gps.fillzone.NeighbourHeuristic;
@@ -17,11 +18,14 @@ public class Main {
 	public static void main(String[] args) {
 		FillZoneProblem problem = new FillZoneProblem("input.txt");
 		Heuristic neighbourHeuristic = new NeighbourHeuristic();
+		Heuristic colorHeuristic = new ColorHeuristic();
 		findSolution(problem, SearchStrategy.BFS, null);
 		findSolution(problem, SearchStrategy.DFS, null);
 		findSolution(problem, SearchStrategy.IDDFS, null);
 		findSolution(problem, SearchStrategy.GREEDY, neighbourHeuristic);
 		findSolution(problem, SearchStrategy.ASTAR, neighbourHeuristic);
+		findSolution(problem, SearchStrategy.GREEDY, colorHeuristic);
+		findSolution(problem, SearchStrategy.ASTAR, colorHeuristic);
 	}
 	
 	private static void findSolution(FillZoneProblem problem, SearchStrategy strat, Heuristic heuristic) {

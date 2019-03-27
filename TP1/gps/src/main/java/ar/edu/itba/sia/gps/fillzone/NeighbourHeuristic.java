@@ -20,13 +20,13 @@ public class NeighbourHeuristic implements Heuristic {
 			return 0;
 		}
 		int n = 1;
-		if((x + 1 < board.length) && !visited[y][x+1]) {
+		if((x + 1 < board[0].length) && !visited[y][x+1]) {
 			n += navigate(x+1, y, board, visited, baseColor);
 		}
 		if((x - 1 >= 0) && !visited[y][x-1]) {
 			n += navigate(x-1, y, board, visited, baseColor);
 		}
-		if((y + 1 < board[0].length) && !visited[y+1][x]) {
+		if((y + 1 < board.length) && !visited[y+1][x]) {
 			n += navigate(x, y+1, board, visited, baseColor);
 		}
 		if((y - 1 >= 0) && !visited[y-1][x]) {
