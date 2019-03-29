@@ -22,6 +22,25 @@ public class Graph {
             this.neighbours = new HashSet<>();
         }
 
+		@Override
+		public int hashCode() {
+			return Integer.valueOf(value).hashCode();
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			Node other = (Node) obj;
+			if (value != other.value)
+				return false;
+			return true;
+		}
+        
     }
 
     private class PQNode implements Comparable<PQNode>{

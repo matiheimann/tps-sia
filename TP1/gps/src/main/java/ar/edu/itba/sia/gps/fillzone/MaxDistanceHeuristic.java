@@ -63,31 +63,29 @@ public class MaxDistanceHeuristic implements Heuristic {
     public void getIsland(int[][] valueNode, Color[][] board, int y, int x, int numberNode){
 
         Queue<Cell> queue = new LinkedList<>();
+        valueNode[y][x] = numberNode;
+        queue.offer(new Cell(x, y));
 
-        queue.offer(new Cell(x,y));
-
-        while(!queue.isEmpty()){
-
+        while(!queue.isEmpty()) {
             Cell cell = queue.poll();
-            valueNode[cell.y][cell.x] = numberNode;
 
-            if(cell.y > 0 && valueNode[cell.y - 1][cell.x] == -1 &&
-                    board[y][x] == board[cell.y - 1][cell.x]){
-                queue.offer(new Cell(x, y-1));
+            if(cell.y != 0 && valueNode[cell.y - 1][cell.x] == -1 && board[y][x] == board[cell.y - 1][cell.x]) {
+            	valueNode[cell.y - 1][cell.x] = numberNode;
+                queue.offer(new Cell(x, y - 1));
             }
 
-            if(cell.y < board.length - 1 && valueNode[cell.y + 1][cell.x] == -1 &&
-                    board[y][x] == board[cell.y + 1][cell.x]){
-
+            if(cell.y != board.length - 1 && valueNode[cell.y + 1][cell.x] == -1 && board[y][x] == board[cell.y + 1][cell.x]) {
+            	valueNode[cell.y + 1][cell.x] = numberNode;
+            	queue.offer(new Cell(x, y + 1));
             }
 
-            if(cell.x > 0 && valueNode[cell.y][cell.x - 1] == -1 &&
-                    board[y][x] == board[cell.y][cell.x - 1]){
-                            queue.offer(new Cell(x - 1, y));
+            if(cell.x != 0 && valueNode[cell.y][cell.x - 1] == -1 && board[y][x] == board[cell.y][cell.x - 1]) {
+            	valueNode[cell.y][cell.x - 1] = numberNode;
+                queue.offer(new Cell(x - 1, y));
             }
 
-            if(cell.x > board[0].length && valueNode[cell.y][cell.x + 1] == -1 &&
-                    board[y][x] == board[cell.y][cell.x + 1]){
+            if(cell.x != board[0].length - 1 && valueNode[cell.y][cell.x + 1] == -1 && board[y][x] == board[cell.y][cell.x + 1]) {
+            	valueNode[cell.y][cell.x + 1] = numberNode;
                 queue.offer(new Cell(x + 1, y));
             }
 
