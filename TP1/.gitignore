@@ -4,6 +4,10 @@
 
 ### Eclipse ###
 
+*.idea/vcs.xml
+*.idea/
+*.iml
+
 .metadata
 bin/
 tmp/
