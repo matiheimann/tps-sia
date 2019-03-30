@@ -13,14 +13,12 @@ public class MaxDistanceHeuristic implements Heuristic {
 
     @Override
     public Integer getValue(State state) {
-
         Color[][] board = ((FillZoneState) state).getBoard();
         Graph g = getGraph(board);
         return g.getMaxDistance();
     }
 
-    public Graph getGraph(Color[][] board){
-
+    public Graph getGraph(Color[][] board) {
         Graph g = new Graph();
         int[][] valueNode = new int[board.length][board[0].length];
 
@@ -32,36 +30,34 @@ public class MaxDistanceHeuristic implements Heuristic {
 
         int numberNode = 0;
 
-        for(int i = 0; i < valueNode.length; i++){
-            for(int j = 0; j < valueNode[0].length; j++){
-                if(valueNode[i][j] == -1){
+        for(int i = 0; i < valueNode.length; i++) {
+            for(int j = 0; j < valueNode[0].length; j++) {
+                if(valueNode[i][j] == -1) {
                     getIsland(valueNode, board, i, j, numberNode);
                     numberNode++;
                 }
             }
         }
 
-        for(int i = 0; i < numberNode; i++){
+        for(int i = 0; i < numberNode; i++) {
             g.addNode(i);
         }
 
-        for(int i = 0; i < valueNode.length - 1; i++){
-            for(int j = 0; j < valueNode[0].length - 1; j++){
-                if(valueNode[i][j] != valueNode[i+1][j]){
+        for(int i = 0; i < valueNode.length; i++) {
+            for(int j = 0; j < valueNode[0].length; j++) {
+                if(i != valueNode.length - 1 && valueNode[i][j] != valueNode[i+1][j]) {
                     g.addEdge(valueNode[i][j], valueNode[i+1][j]);
                 }
-                if(valueNode[i][j] != valueNode[i][j+1]){
+                if(j != valueNode[0].length - 1 && valueNode[i][j] != valueNode[i][j+1]) {
                     g.addEdge(valueNode[i][j], valueNode[i][j+1]);
                 }
             }
         }
 
         return g;
-
     }
 
-    public void getIsland(int[][] valueNode, Color[][] board, int y, int x, int numberNode){
-
+    public void getIsland(int[][] valueNode, Color[][] board, int y, int x, int numberNode) {
         Queue<Cell> queue = new LinkedList<>();
         valueNode[y][x] = numberNode;
         queue.offer(new Cell(x, y));
@@ -88,9 +84,7 @@ public class MaxDistanceHeuristic implements Heuristic {
             	valueNode[cell.y][cell.x + 1] = numberNode;
                 queue.offer(new Cell(x + 1, y));
             }
-
         }
-
     }
 
 }
