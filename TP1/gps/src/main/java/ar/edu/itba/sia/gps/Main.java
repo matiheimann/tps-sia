@@ -11,21 +11,25 @@ import ar.edu.itba.sia.gps.fillzone.Color;
 import ar.edu.itba.sia.gps.fillzone.ColorHeuristic;
 import ar.edu.itba.sia.gps.fillzone.FillZoneProblem;
 import ar.edu.itba.sia.gps.fillzone.FillZoneState;
+import ar.edu.itba.sia.gps.fillzone.MaxDistanceHeuristic;
 import ar.edu.itba.sia.gps.fillzone.NeighbourHeuristic;
 
 public class Main {
 
 	public static void main(String[] args) {
-		FillZoneProblem problem = new FillZoneProblem("input.txt");
+		FillZoneProblem problem = new FillZoneProblem("input2.txt");
 		Heuristic neighbourHeuristic = new NeighbourHeuristic();
 		Heuristic colorHeuristic = new ColorHeuristic();
-		findSolution(problem, SearchStrategy.BFS, null);
-		findSolution(problem, SearchStrategy.DFS, null);
-		findSolution(problem, SearchStrategy.IDDFS, null);
-		findSolution(problem, SearchStrategy.GREEDY, neighbourHeuristic);
-		findSolution(problem, SearchStrategy.ASTAR, neighbourHeuristic);
-		findSolution(problem, SearchStrategy.GREEDY, colorHeuristic);
-		findSolution(problem, SearchStrategy.ASTAR, colorHeuristic);
+		Heuristic maxDistanceHeuristic = new MaxDistanceHeuristic();
+//		findSolution(problem, SearchStrategy.BFS, null);
+//		findSolution(problem, SearchStrategy.DFS, null);
+//		findSolution(problem, SearchStrategy.IDDFS, null);
+//		findSolution(problem, SearchStrategy.GREEDY, neighbourHeuristic);
+//		findSolution(problem, SearchStrategy.ASTAR, neighbourHeuristic);
+//		findSolution(problem, SearchStrategy.GREEDY, colorHeuristic);
+//		findSolution(problem, SearchStrategy.ASTAR, colorHeuristic);
+		findSolution(problem, SearchStrategy.GREEDY, maxDistanceHeuristic);
+		findSolution(problem, SearchStrategy.ASTAR, maxDistanceHeuristic);
 	}
 	
 	private static void findSolution(FillZoneProblem problem, SearchStrategy strat, Heuristic heuristic) {
@@ -74,6 +78,8 @@ public class Main {
 					ps.println(board[i][j].getRGB() + " " + (height - i) + " " + j);
 				}
 			}
+			System.out.println(state.getGraph());
+			System.out.println(state.getGraph().getMaxDistance());
 		}
 		
 		ps.close();

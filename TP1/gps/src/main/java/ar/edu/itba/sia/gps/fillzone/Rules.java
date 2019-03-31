@@ -7,6 +7,7 @@ import java.util.Queue;
 
 import ar.edu.itba.sia.gps.api.Rule;
 import ar.edu.itba.sia.gps.api.State;
+import ar.edu.itba.sia.gps.fillzone.utils.Graph;
 
 public enum Rules implements Rule {
 	FILL_WHITE {
@@ -60,6 +61,7 @@ public enum Rules implements Rule {
 	
 	public Optional<State> applyRule(FillZoneState state, Color color) {	
 		Color[][] b = state.getBoard();
+		Graph g = state.getGraph();
 		
 		if(b[0][0] == color) {
 			return Optional.empty();
@@ -101,7 +103,10 @@ public enum Rules implements Rule {
 			checked[c.y][c.x] = true;
 		}
 		
-		State s = new FillZoneState(newBoard);
+		Graph newGraph = new Graph(g);
+		newGraph.mergeIslands(color);
+		
+		State s = new FillZoneState(newBoard, newGraph);
 		
 		return Optional.of(s);
 	}
