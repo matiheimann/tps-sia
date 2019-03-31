@@ -137,16 +137,16 @@ public class Graph {
         pq.offer(new PQNode(0, n));
 
         int maxValue = 0;
-        Set<Color> maxValueColors = new HashSet<>();
+        //Set<Color> maxValueColors = new HashSet<>();
 
         while(!pq.isEmpty()) {
             PQNode pqn = pq.poll();
             if (pqn.weight > maxValue) {
             	maxValue = pqn.weight;
-            	maxValueColors.clear();
+            	//maxValueColors.clear();
             }
             
-            maxValueColors.add(pqn.node.color);
+            //maxValueColors.add(pqn.node.color);
             
             pqn.node.neighbours.forEach(neighbour -> {
             	if(neighbour.isVisited == false) {
