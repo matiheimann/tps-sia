@@ -2,7 +2,6 @@ package ar.edu.itba.sia.gps.fillzone;
 
 import ar.edu.itba.sia.gps.api.Heuristic;
 import ar.edu.itba.sia.gps.api.State;
-import ar.edu.itba.sia.gps.fillzone.utils.Graph;
 
 public class MaxDistanceHeuristic implements Heuristic {
 

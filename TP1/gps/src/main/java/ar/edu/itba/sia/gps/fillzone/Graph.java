@@ -1,18 +1,22 @@
-package ar.edu.itba.sia.gps.fillzone.utils;
+package ar.edu.itba.sia.gps.fillzone;
 
 import java.util.*;
 
-import ar.edu.itba.sia.gps.fillzone.Color;
-
 public class Graph {
 
+	private int height;
+	private int width;
     private Map<Integer, Node> nodes;
 
-    public Graph() {
+    public Graph(int height, int width) {
+    	this.height = height;
+    	this.width = width;
         this.nodes = new HashMap<>();
     }
     
     public Graph(Graph graph) {
+    	this.height = graph.height;
+    	this.width = graph.width;
     	this.nodes = new HashMap<>();
 		for(Node n : graph.nodes.values()) {
 			addNode(n.value, n.color);
@@ -21,8 +25,10 @@ public class Graph {
 			for (Node neighbour : n.neighbours) {
 				addEdge(n.value, neighbour.value);
 			}
+			for (Cell cell : n.cells) {
+				addCell(n.value, cell);
+			}
 		}
-        
     }
 
     private class Node {
@@ -30,12 +36,14 @@ public class Graph {
         private int value;
         private boolean isVisited;
         Set<Node> neighbours;
+        Set<Cell> cells;
         private Color color;
 
         public Node(int value, Color color) {
             this.value = value;
             this.isVisited = false;
             this.neighbours = new HashSet<>();
+            this.cells = new HashSet<>();
             this.color = color;
         }
         
@@ -86,6 +94,11 @@ public class Graph {
         }
         
     }
+    
+    public void addCell(int node, Cell cell) {
+    	Node n = this.nodes.get(node);
+    	n.cells.add(cell);
+    }
 
     public void addEdge(int node1, int node2) {
         if(this.nodes.get(node1) == null || this.nodes.get(node2) == null) {
@@ -118,6 +131,7 @@ public class Graph {
         	addEdge(node.value, n.value);
         }
         for (Node n : toRemove) {
+        	node.cells.addAll(n.cells);
         	node.neighbours.remove(n);
         	nodes.remove(n.value);
         }
@@ -129,7 +143,7 @@ public class Graph {
         this.nodes.forEach((k,v) -> v.isVisited = false);
     }
 
-    public Integer getMaxDistance() {
+    public int getMaxDistance() {
         clearMarks();
         PriorityQueue<PQNode> pq = new PriorityQueue<>();
         Node n = nodes.get(0);
@@ -159,9 +173,48 @@ public class Graph {
         return maxValue;
     }
     
+    public int getCurrentCellsCount() {
+        return this.nodes.get(0).cells.size();
+    }
+    
+    public int getCurrentNeighbourColorsCount() {
+    	Node node = this.nodes.get(0);
+        Set<Color> colors = new HashSet<>();
+        for (Node neighbour : node.neighbours) {
+        	colors.add(neighbour.color);
+        }
+        return colors.size();
+    }
+    
     @Override
     public String toString() {
     	return nodes.toString();
     }
+    
+    public int getNodesCount() {
+    	return this.nodes.size();
+    }
+    
+    public Color getCurrentColor() {
+    	return this.nodes.get(0).color;
+    }
+    
+    public Color[][] toBoard() {
+    	Color[][] board = new Color[height][width];
+    	for (Node node : nodes.values()) {
+    		for (Cell cell : node.cells) {
+    			board[cell.y][cell.x] = node.color;
+    		}
+    	}
+    	return board;
+    }
+    
+    public int getHeight() {
+    	return this.height;
+    }
 
+    public int getWidth() {
+    	return this.width;
+    }
+    
 }

@@ -30,15 +30,11 @@ public class FillZoneProblem implements Problem {
 	@Override
 	public boolean isGoal(State state) {
 		FillZoneState fzs = (FillZoneState) state;
-		Color[][] b = fzs.getBoard();
-		Color c = b[0][0];
+		Graph g = fzs.getGraph();
+		if (g.getNodesCount() == 1)
+			return true;
 		
-		for(int i = 0; i < b.length; i++)
-			for(int j = 0; j < b[0].length; j++)
-				if(b[i][j] != c)
-					return false;
-		
-		return true;
+		return false;
 	}
 
 	@Override

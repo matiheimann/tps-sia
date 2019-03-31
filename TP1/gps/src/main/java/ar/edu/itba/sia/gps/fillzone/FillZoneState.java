@@ -5,21 +5,20 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import ar.edu.itba.sia.gps.api.State;
-import ar.edu.itba.sia.gps.fillzone.utils.Graph;
 
 public class FillZoneState implements State {
 	
-	private Color[][] board;
 	private Graph graph;
+	private Color[][] board;
 	
 	public FillZoneState(Color[][] board) {
-		this.board = board;
-		this.graph = initGraph();
+		this.graph = initGraph(board);
+		this.board = graph.toBoard();
 	}
 	
-	public FillZoneState(Color[][] board, Graph graph) {
-		this.board = board;
+	public FillZoneState(Graph graph) {
 		this.graph = graph;
+		this.board = graph.toBoard();
 	}
 	
 	@Override
@@ -34,13 +33,13 @@ public class FillZoneState implements State {
 		}
 		return representation.toString();
 	}
-
-	public Color[][] getBoard() {
-		return this.board;
-	}
 	
 	public Graph getGraph() {
 		return this.graph;
+	}
+	
+	public Color[][] getBoard() {
+		return this.board;
 	}
 
 	@Override
@@ -65,8 +64,8 @@ public class FillZoneState implements State {
 		return true;
 	}
 	
-	private Graph initGraph() {
-        Graph g = new Graph();
+	private Graph initGraph(Color[][] board) {
+        Graph g = new Graph(board.length, board[0].length);
         int[][] valueNode = new int[board.length][board[0].length];
 
         for(int i = 0; i < valueNode.length; i++) {
@@ -80,7 +79,7 @@ public class FillZoneState implements State {
         for(int i = 0; i < valueNode.length; i++) {
             for(int j = 0; j < valueNode[0].length; j++) {
                 if(valueNode[i][j] == -1) {
-                	initIsland(valueNode, i, j, numberNode);
+                	initIsland(board, valueNode, i, j, numberNode);
                 	g.addNode(numberNode, board[i][j]);
                     numberNode++;
                 }
@@ -98,6 +97,7 @@ public class FillZoneState implements State {
 
         for(int i = 0; i < valueNode.length; i++) {
             for(int j = 0; j < valueNode[0].length; j++) {
+            	g.addCell(valueNode[i][j], new Cell(j, i));
                 if(i != valueNode.length - 1 && valueNode[i][j] != valueNode[i+1][j]) {
                     g.addEdge(valueNode[i][j], valueNode[i+1][j]);
                 }
@@ -110,7 +110,7 @@ public class FillZoneState implements State {
         return g;
     }
 
-    private void initIsland(int[][] valueNode, int y, int x, int numberNode) {
+    private void initIsland(Color[][] board, int[][] valueNode, int y, int x, int numberNode) {
         Queue<Cell> queue = new LinkedList<>();
         queue.offer(new Cell(x, y));
 
@@ -143,5 +143,5 @@ public class FillZoneState implements State {
             }
         }
     }
-
+   
 }

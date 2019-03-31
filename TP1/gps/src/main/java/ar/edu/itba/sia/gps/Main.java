@@ -17,7 +17,7 @@ import ar.edu.itba.sia.gps.fillzone.NeighbourHeuristic;
 public class Main {
 
 	public static void main(String[] args) {
-		FillZoneProblem problem = new FillZoneProblem("input2.txt");
+		FillZoneProblem problem = new FillZoneProblem("input.txt");
 		Heuristic neighbourHeuristic = new NeighbourHeuristic();
 		Heuristic colorHeuristic = new ColorHeuristic();
 		Heuristic maxDistanceHeuristic = new MaxDistanceHeuristic();
@@ -78,8 +78,8 @@ public class Main {
 					ps.println(board[i][j].getRGB() + " " + (height - i) + " " + j);
 				}
 			}
-			System.out.println(state.getGraph());
-			System.out.println(state.getGraph().getMaxDistance());
+			//System.out.println(state.getGraph());
+			//System.out.println(state.getGraph().getMaxDistance());
 		}
 		
 		ps.close();
