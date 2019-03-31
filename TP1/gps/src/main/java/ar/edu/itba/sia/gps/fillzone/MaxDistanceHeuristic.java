@@ -10,5 +10,10 @@ public class MaxDistanceHeuristic implements Heuristic {
     	Graph g = ((FillZoneState) state).getGraph();
         return g.getMaxDistance();
     }
+    
+	@Override
+	public String toString() {
+		return "Max Distance Heuristic";
+	}
 
 }

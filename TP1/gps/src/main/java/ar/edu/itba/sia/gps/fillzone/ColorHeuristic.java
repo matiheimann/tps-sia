@@ -11,4 +11,9 @@ public class ColorHeuristic implements Heuristic {
 		Graph graph = fState.getGraph();
 		return graph.getCurrentNeighbourColorsCount();
 	}
+	
+	@Override
+	public String toString() {
+		return "Color Heuristic";
+	}
 }

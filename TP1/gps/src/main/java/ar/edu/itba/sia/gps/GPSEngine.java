@@ -19,6 +19,8 @@ public class GPSEngine {
 	Map<State, Integer> bestCosts;
 	Problem problem;
 	long explosionCounter;
+	long analyzedCounter;
+	long frontierCounter;
 	boolean finished;
 	boolean failed;
 	GPSNode solutionNode;
@@ -37,6 +39,8 @@ public class GPSEngine {
 		this.strategy = strategy;
 		this.heuristic = Optional.ofNullable(heuristic);
 		explosionCounter = 0;
+		analyzedCounter = 0;
+		frontierCounter = 0;
 		finished = false;
 		failed = false;
 	}
@@ -55,6 +59,7 @@ public class GPSEngine {
 		} else {
 			while (open.size() > 0) {
 				GPSNode currentNode = open.remove();
+				analyzedCounter++;
 				if (problem.isGoal(currentNode.getState())) {
 					finished = true;
 					solutionNode = currentNode;
@@ -77,6 +82,7 @@ public class GPSEngine {
 			while(open.size() > 0) {
 				GPSNode currentNode = open.remove();
 				if (problem.isGoal(currentNode.getState())) {
+					frontierCounter++;
 					finished = true;
 					solutionNode = currentNode;
 					return;
@@ -101,6 +107,7 @@ public class GPSEngine {
 
 	private void explode(GPSNode node) {
 		Collection<GPSNode> newCandidates;
+		boolean added = false;
 		switch (strategy) {
 			case BFS:
 				if (bestCosts.containsKey(node.getState())) {
@@ -111,6 +118,7 @@ public class GPSEngine {
 				// T̶O̶D̶O̶: ¿Cómo se agregan los nodos a open en BFS?
 				for (GPSNode n : newCandidates) {
 					if (!bestCosts.containsKey(n.getState())) {
+						added = true;
 						open.add(n);
 					}
 				}
@@ -124,6 +132,7 @@ public class GPSEngine {
 				// T̶O̶D̶O̶: ¿Cómo se agregan los nodos a open en DFS?
 				for (GPSNode n : newCandidates) {
 					if (!bestCosts.containsKey(n.getState())) {
+						added = true;
 						open.add(n);
 					}
 				}
@@ -134,6 +143,7 @@ public class GPSEngine {
 				// T̶O̶D̶O̶: ¿Cómo se agregan los nodos a open en IDDFS?
 				for (GPSNode n : newCandidates) {
 					if (!bestCosts.containsKey(n.getState())) {
+						added = true;
 						open.add(n);
 					}
 				}
@@ -144,6 +154,7 @@ public class GPSEngine {
 				// T̶O̶D̶O̶: ¿Cómo se agregan los nodos a open en GREEDY?
 				for (GPSNode n : newCandidates) {
 					if (!bestCosts.containsKey(n.getState())) {
+						added = true;
 						open.add(n);
 					}
 				}
@@ -157,11 +168,14 @@ public class GPSEngine {
 				// T̶O̶D̶O̶: ¿Cómo se agregan los nodos a open en A*?
 				for (GPSNode n : newCandidates) {
 					if (isBest(n.getState(), n.getCost())) {
+						added = true;
 						open.add(n);
 					}
 				}
 				break;
 		}
+		if (!added)
+			frontierCounter++;
 	}
 
 	private void addCandidates(GPSNode node, Collection<GPSNode> candidates) {
@@ -205,6 +219,14 @@ public class GPSEngine {
 
 	public long getExplosionCounter() {
 		return explosionCounter;
+	}
+	
+	public long getAnalyzedCounter() {
+		return analyzedCounter;
+	}
+	
+	public long getFrontierCounter() {
+		return frontierCounter;
 	}
 
 	public boolean isFinished() {

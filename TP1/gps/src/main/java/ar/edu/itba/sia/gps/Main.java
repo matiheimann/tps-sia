@@ -38,12 +38,18 @@ public class Main {
 		if (engine.isFinished() && !engine.isFailed()) {
 			solutionToXYZFile(getSolutionStart(engine.getSolutionNode()), strat.toString());
 			System.out.println(strat.toString() + " ok.");
-			System.out.println("Elapsed Time: " + engine.elapsedTime/1000.0 + "s");
-			System.out.println("Depth: " + engine.getSolutionNode().getDepth());
-			System.out.println("Exploded Nodes: " + engine.getExplosionCounter());
 		} else {
 			System.out.println(strat.toString() + " failed.");
 		}
+		if (heuristic != null) {
+			System.out.println("Heuristic: " + heuristic.toString());
+		}
+		System.out.println("Elapsed Time: " + engine.elapsedTime/1000.0 + "s");
+		System.out.println("Depth: " + engine.getSolutionNode().getDepth());
+		System.out.println("Cost: " + engine.getSolutionNode().getCost());
+		System.out.println("Expanded Nodes: " + engine.getExplosionCounter());
+		System.out.println("Analyzed States: " + engine.getAnalyzedCounter());
+		System.out.println("Frontier Nodes: " + engine.getFrontierCounter());
 		System.out.println();
 	}
 	

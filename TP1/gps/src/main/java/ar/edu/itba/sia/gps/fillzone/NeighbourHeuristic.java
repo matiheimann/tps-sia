@@ -11,5 +11,10 @@ public class NeighbourHeuristic implements Heuristic {
 		Graph graph = fState.getGraph();
 		return graph.getHeight() * graph.getWidth() - graph.getCurrentCellsCount();
 	}
+	
+	@Override
+	public String toString() {
+		return "Neighbour Heuristic";
+	}
 
 }
