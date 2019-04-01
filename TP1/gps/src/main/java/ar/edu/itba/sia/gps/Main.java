@@ -5,12 +5,14 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import ar.edu.itba.sia.gps.api.Heuristic;
 import ar.edu.itba.sia.gps.fillzone.Color;
-import ar.edu.itba.sia.gps.fillzone.ColorHeuristic;
 import ar.edu.itba.sia.gps.fillzone.FillZoneProblem;
 import ar.edu.itba.sia.gps.fillzone.FillZoneState;
+import ar.edu.itba.sia.gps.fillzone.IsleCountHeuristic;
 import ar.edu.itba.sia.gps.fillzone.MaxDistanceHeuristic;
 import ar.edu.itba.sia.gps.fillzone.NeighbourHeuristic;
 
@@ -19,17 +21,17 @@ public class Main {
 	public static void main(String[] args) {
 		FillZoneProblem problem = new FillZoneProblem("input.txt");
 		Heuristic neighbourHeuristic = new NeighbourHeuristic();
-		Heuristic colorHeuristic = new ColorHeuristic();
+		Heuristic isleCountHeuristic = new IsleCountHeuristic();
 		Heuristic maxDistanceHeuristic = new MaxDistanceHeuristic();
-//		findSolution(problem, SearchStrategy.BFS, null);
-//		findSolution(problem, SearchStrategy.DFS, null);
-//		findSolution(problem, SearchStrategy.IDDFS, null);
-//		findSolution(problem, SearchStrategy.GREEDY, neighbourHeuristic);
-//		findSolution(problem, SearchStrategy.ASTAR, neighbourHeuristic);
-//		findSolution(problem, SearchStrategy.GREEDY, colorHeuristic);
-//		findSolution(problem, SearchStrategy.ASTAR, colorHeuristic);
+		findSolution(problem, SearchStrategy.BFS, null);
+		findSolution(problem, SearchStrategy.DFS, null);
+		findSolution(problem, SearchStrategy.IDDFS, null);
+		findSolution(problem, SearchStrategy.GREEDY, neighbourHeuristic);
+		findSolution(problem, SearchStrategy.ASTAR, neighbourHeuristic);
 		findSolution(problem, SearchStrategy.GREEDY, maxDistanceHeuristic);
 		findSolution(problem, SearchStrategy.ASTAR, maxDistanceHeuristic);
+		findSolution(problem, SearchStrategy.GREEDY, isleCountHeuristic);
+		findSolution(problem, SearchStrategy.ASTAR, isleCountHeuristic);
 	}
 	
 	private static void findSolution(FillZoneProblem problem, SearchStrategy strat, Heuristic heuristic) {
@@ -51,6 +53,8 @@ public class Main {
 		System.out.println("Analyzed States: " + engine.getAnalyzedCounter());
 		System.out.println("Frontier Nodes: " + engine.getFrontierCounter());
 		System.out.println();
+		
+		showSolution(getSolutionStart(engine.getSolutionNode()), problem, strat, heuristic);
 	}
 	
 	private static LinkedList<GPSNode> getSolutionStart(GPSNode solution) {
@@ -90,5 +94,16 @@ public class Main {
 		
 		ps.close();
     }
+	
+	private static void showSolution(List<GPSNode> solutionPath, FillZoneProblem problem, SearchStrategy strat, Heuristic heuristic) {
+		for(GPSNode node : solutionPath) {
+			problem.getWindow().update(((FillZoneState)node.getState()).getBoard(), strat, heuristic);
+			try {
+				TimeUnit.MILLISECONDS.sleep(500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 }

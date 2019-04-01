@@ -217,4 +217,8 @@ public class Graph {
     	return this.width;
     }
     
+    public int getIsleCount() {
+    	return nodes.size();
+    }
+    
 }
