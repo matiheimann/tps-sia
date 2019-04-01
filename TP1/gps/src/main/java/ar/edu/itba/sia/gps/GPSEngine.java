@@ -26,6 +26,7 @@ public class GPSEngine {
 	GPSNode solutionNode;
 	Optional<Heuristic> heuristic;
 	
+	long startTime;
 	long elapsedTime;
 
 	// Use this variable in open set order.
@@ -46,7 +47,7 @@ public class GPSEngine {
 	}
 
 	public void findSolution() {
-		long startTime = System.currentTimeMillis();
+		startTime = System.currentTimeMillis();
 		GPSNode rootNode;
 		if (heuristic.isPresent())
 			rootNode = new GPSNode(problem.getInitState(), 0, heuristic.get().getValue(problem.getInitState()), null);
@@ -63,6 +64,7 @@ public class GPSEngine {
 				if (problem.isGoal(currentNode.getState())) {
 					finished = true;
 					solutionNode = currentNode;
+					frontierCounter += 1 + open.size();
 					elapsedTime = System.currentTimeMillis() - startTime;
 					return;
 				} else {
@@ -75,16 +77,18 @@ public class GPSEngine {
 	}
 	
 	private void findSolutionIDDFS() {
-		int maxDepth = 5; // Poner maxDepth inicial optimo para el problema
+		int maxDepth = 15; // Poner maxDepth inicial optimo para el problema
 		int currentDepth = 0;
 		while (currentDepth <= maxDepth) {
 			ArrayList<GPSNode> aux = new ArrayList<>();
 			while(open.size() > 0) {
 				GPSNode currentNode = open.remove();
+				analyzedCounter++;
 				if (problem.isGoal(currentNode.getState())) {
-					frontierCounter++;
 					finished = true;
 					solutionNode = currentNode;
+					frontierCounter += 1 + open.size();
+					elapsedTime = System.currentTimeMillis() - startTime;
 					return;
 				} else {
 					if (currentNode.getDepth() <= maxDepth) {
@@ -138,11 +142,14 @@ public class GPSEngine {
 				}
 				break;
 			case IDDFS:
+				if (!isBest(node.getState(), node.getCost())) {
+					return;
+				}
 				newCandidates = new ArrayList<>();
 				addCandidates(node, newCandidates);
 				// T̶O̶D̶O̶: ¿Cómo se agregan los nodos a open en IDDFS?
 				for (GPSNode n : newCandidates) {
-					if (!bestCosts.containsKey(n.getState())) {
+					if (isBest(n.getState(), n.getCost())) {
 						added = true;
 						open.add(n);
 					}
