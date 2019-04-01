@@ -3,6 +3,7 @@ package ar.edu.itba.sia.gps.fillzone;
 import java.awt.ComponentOrientation;
 import java.awt.GridLayout;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
@@ -22,6 +23,7 @@ public class GamePanel extends JPanel {
 			for(int j = 0; j < width; j++) {
 				panels[i][j] = new JPanel();
 				panels[i][j].setVisible(true);
+				panels[i][j].setBorder(BorderFactory.createLineBorder(java.awt.Color.BLACK));
 				setPanelColor(panels[i][j], board[i][j]);
 				add(panels[i][j]);
 			}
