@@ -1,4 +1,4 @@
-package ar.edu.itba.sia.gps;
+package ar.edu.itba.sia.gps.fillzone;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -8,14 +8,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import ar.edu.itba.sia.gps.GPSEngine;
+import ar.edu.itba.sia.gps.GPSNode;
+import ar.edu.itba.sia.gps.SearchStrategy;
 import ar.edu.itba.sia.gps.api.Heuristic;
-import ar.edu.itba.sia.gps.fillzone.Color;
-import ar.edu.itba.sia.gps.fillzone.FillZoneProblem;
-import ar.edu.itba.sia.gps.fillzone.FillZoneState;
-import ar.edu.itba.sia.gps.fillzone.GameWindow;
-import ar.edu.itba.sia.gps.fillzone.IsleCountHeuristic;
-import ar.edu.itba.sia.gps.fillzone.MaxDistanceHeuristic;
-import ar.edu.itba.sia.gps.fillzone.NeighbourHeuristic;
 
 public class Main {
 	
@@ -81,7 +77,7 @@ public class Main {
 		if (heuristic != null) {
 			System.out.println("Heuristic: " + heuristic.toString());
 		}
-		System.out.println("Elapsed Time: " + engine.elapsedTime/1000.0 + "s");
+		System.out.println("Elapsed Time: " + engine.getElapsedTime()/1000.0 + "s");
 		System.out.println("Depth: " + engine.getSolutionNode().getDepth());
 		System.out.println("Cost: " + engine.getSolutionNode().getCost());
 		System.out.println("Expanded Nodes: " + engine.getExplosionCounter());

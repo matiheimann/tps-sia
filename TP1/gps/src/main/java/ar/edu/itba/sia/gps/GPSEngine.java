@@ -235,6 +235,10 @@ public class GPSEngine {
 	public long getFrontierCounter() {
 		return frontierCounter;
 	}
+	
+	public long getElapsedTime() {
+		return elapsedTime;
+	}
 
 	public boolean isFinished() {
 		return finished;
