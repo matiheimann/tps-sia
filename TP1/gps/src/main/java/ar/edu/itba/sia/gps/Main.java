@@ -105,10 +105,11 @@ public class Main {
 		}
 		int totalStates = solutionPath.size();
 		for(GPSNode node : solutionPath) {
+			while(window.isPaused()) {}
 			FillZoneState fsz = (FillZoneState) node.getState();
 			window.update(fsz.getBoard(), node.getCost() + 1, totalStates, strat, heuristic);
 			try {
-				TimeUnit.MILLISECONDS.sleep(500);
+				TimeUnit.MILLISECONDS.sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
