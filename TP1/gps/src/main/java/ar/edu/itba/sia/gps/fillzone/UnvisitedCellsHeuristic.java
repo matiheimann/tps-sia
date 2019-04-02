@@ -3,7 +3,7 @@ package ar.edu.itba.sia.gps.fillzone;
 import ar.edu.itba.sia.gps.api.Heuristic;
 import ar.edu.itba.sia.gps.api.State;
 
-public class NeighbourHeuristic implements Heuristic {
+public class UnvisitedCellsHeuristic implements Heuristic {
 
 	@Override
 	public Integer getValue(State state) {
@@ -14,7 +14,7 @@ public class NeighbourHeuristic implements Heuristic {
 	
 	@Override
 	public String toString() {
-		return "Neighbour Heuristic";
+		return "Unvisited Cells Heur.";
 	}
 
 }

@@ -15,7 +15,7 @@ import ar.edu.itba.sia.gps.fillzone.FillZoneState;
 import ar.edu.itba.sia.gps.fillzone.GameWindow;
 import ar.edu.itba.sia.gps.fillzone.IsleCountHeuristic;
 import ar.edu.itba.sia.gps.fillzone.MaxDistanceHeuristic;
-import ar.edu.itba.sia.gps.fillzone.NeighbourHeuristic;
+import ar.edu.itba.sia.gps.fillzone.UnvisitedCellsHeuristic;
 
 public class Main {
 	
@@ -33,7 +33,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		FillZoneProblem problem = initProblem(args);
-		Heuristic neighbourHeuristic = new NeighbourHeuristic();
+		Heuristic neighbourHeuristic = new UnvisitedCellsHeuristic();
 		Heuristic isleCountHeuristic = new IsleCountHeuristic();
 		Heuristic maxDistanceHeuristic = new MaxDistanceHeuristic();
 		findSolution(problem, SearchStrategy.BFS, null);
