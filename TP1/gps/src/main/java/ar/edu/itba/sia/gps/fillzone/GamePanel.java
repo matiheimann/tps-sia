@@ -46,7 +46,7 @@ public class GamePanel extends JPanel {
 			jPanel.setBackground(java.awt.Color.YELLOW);
 			break;
 		case PINK:
-			jPanel.setBackground(java.awt.Color.PINK);
+			jPanel.setBackground(java.awt.Color.MAGENTA);
 			break;
 		case GREEN:
 			jPanel.setBackground(java.awt.Color.GREEN);
