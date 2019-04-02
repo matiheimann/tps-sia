@@ -28,7 +28,6 @@ public class GamePanel extends JPanel {
 				add(panels[i][j]);
 			}
 		}
-		
 	}
 
 	private void setPanelColor(JPanel jPanel, Color color) {
