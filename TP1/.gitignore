@@ -258,4 +258,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# Additional files and folders
+TP1/.idea
+
 # End of https://www.gitignore.io/api/macos,linux,eclipse,windows,intellij,sublimetext
