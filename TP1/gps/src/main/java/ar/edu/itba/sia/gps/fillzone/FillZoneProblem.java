@@ -23,8 +23,8 @@ public class FillZoneProblem implements Problem {
 		initRandBoard(height, width);
 	}
 	
-	public FillZoneProblem(String fileName) {
-		parseFile(fileName);
+	public FillZoneProblem(File file) throws FileNotFoundException {
+		parseFile(file);
 	}
 
 	@Override
@@ -57,15 +57,9 @@ public class FillZoneProblem implements Problem {
 		initState = new FillZoneState(board);
 	}
 	
-	private void parseFile(String fileName) {
-		File file = new File(fileName);
-		Scanner input = null;
-		try {
-			input = new Scanner(file);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			System.exit(1);
-		}
+	private void parseFile(File file) throws FileNotFoundException {
+		Scanner input = new Scanner(file);
+		
 		int height = input.nextInt();
 		int width = input.nextInt();
 		Color[][] board = new Color[height][width];

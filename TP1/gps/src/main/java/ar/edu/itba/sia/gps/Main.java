@@ -19,10 +19,20 @@ import ar.edu.itba.sia.gps.fillzone.NeighbourHeuristic;
 
 public class Main {
 	
+	private static final String HELP = "Usage:\n"
+			+ "\t1. fillzone (runs with 5x5 random generated board)\n"
+			+ "\t2. fillzone <filename> (runs with board inside a file)\n"
+			+ "\t\tFile format example:\n"
+			+ "\t\t\t3 5\n"
+			+ "\t\t\t35201\n"
+			+ "\t\t\t21043\n"
+			+ "\t\t\t20013\n"
+			+ "\t3. fillzone <height> <width> (runs with height * width random generated board)\n";
+	
 	private static GameWindow window;
 
 	public static void main(String[] args) {
-		FillZoneProblem problem = new FillZoneProblem(5, 5);
+		FillZoneProblem problem = initProblem(args);
 		Heuristic neighbourHeuristic = new NeighbourHeuristic();
 		Heuristic isleCountHeuristic = new IsleCountHeuristic();
 		Heuristic maxDistanceHeuristic = new MaxDistanceHeuristic();
@@ -35,6 +45,28 @@ public class Main {
 		findSolution(problem, SearchStrategy.ASTAR, maxDistanceHeuristic);
 		findSolution(problem, SearchStrategy.GREEDY, isleCountHeuristic);
 		findSolution(problem, SearchStrategy.ASTAR, isleCountHeuristic);
+	}
+	
+	private static FillZoneProblem initProblem(String[] args) {
+		try {
+			switch (args.length) {
+				case 0:
+					return new FillZoneProblem(5, 5);
+				case 1:
+					return new FillZoneProblem(new File(args[0]));
+				case 2:
+					return new FillZoneProblem(Integer.valueOf(args[0]), Integer.valueOf(args[1]));
+				default:
+					System.out.println("ERROR: too many arguments.");
+			}
+		} catch (FileNotFoundException e) {
+			System.out.println("ERROR: input file not found.");
+		} catch (NumberFormatException e) {
+			System.out.println("ERROR: invalid numbers format.");
+		}
+		System.out.print(HELP);
+		System.exit(1);
+		return null;
 	}
 	
 	private static void findSolution(FillZoneProblem problem, SearchStrategy strat, Heuristic heuristic) {
