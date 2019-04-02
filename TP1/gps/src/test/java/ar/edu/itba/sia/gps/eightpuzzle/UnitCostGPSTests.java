@@ -24,8 +24,8 @@ public class UnitCostGPSTests {
 		bfsEngine = new GPSEngine(problem, SearchStrategy.BFS, null);
 		dfsEngine = new GPSEngine(problem, SearchStrategy.DFS, null);
 		iddfsEngine = new GPSEngine(problem, SearchStrategy.IDDFS, null);
-		aStarEngine = new GPSEngine(problem, SearchStrategy.ASTAR, E8HeuristicA.instance());
-		greedyEngine = new GPSEngine(problem, SearchStrategy.GREEDY, E8HeuristicA.instance());
+		aStarEngine = new GPSEngine(problem, SearchStrategy.ASTAR, E8HeuristicB.instance());
+		greedyEngine = new GPSEngine(problem, SearchStrategy.GREEDY, E8HeuristicB.instance());
 		
 		System.out.println("Finding bfs solution");
 		bfsEngine.findSolution();

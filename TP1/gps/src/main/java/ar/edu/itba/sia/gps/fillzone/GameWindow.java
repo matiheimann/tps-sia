@@ -31,11 +31,11 @@ public class GameWindow extends JFrame {
 		setVisible(true);
 	}
 
-	public void update(Color[][] board, SearchStrategy strategy, Heuristic heuristic) {
+	public void update(Color[][] board, int state, int totalStates, SearchStrategy strategy, Heuristic heuristic) {
 		if(heuristic != null) {
-			headerLabel.setText(strategy.toString() + ": " + heuristic.toString());
+			headerLabel.setText(strategy.toString() + ": " + heuristic.toString() + " - " + state + "/" + totalStates);
 		} else {
-			headerLabel.setText(strategy.toString());
+			headerLabel.setText(strategy.toString() + " - " + state + "/" + totalStates);
 		}
 		((GamePanel) panel).update(board);
 	}

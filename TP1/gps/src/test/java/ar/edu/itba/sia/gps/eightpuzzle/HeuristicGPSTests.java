@@ -18,8 +18,8 @@ public class HeuristicGPSTests {
 	public static void setUp(){
 		E8Problem betterHeuristicProblem = new E8Problem(false);
 		E8Problem worseHeuristicProblem = new E8Problem(false);
-		betterHeuristicEngine = new GPSEngine(betterHeuristicProblem , SearchStrategy.ASTAR, E8HeuristicA.instance());
-		worseHeuristicEngine = new GPSEngine(worseHeuristicProblem, SearchStrategy.ASTAR, E8HeuristicB.instance());
+		betterHeuristicEngine = new GPSEngine(betterHeuristicProblem , SearchStrategy.ASTAR, E8HeuristicB.instance());
+		worseHeuristicEngine = new GPSEngine(worseHeuristicProblem, SearchStrategy.ASTAR, E8HeuristicA.instance());
 		
 		System.out.println("Finding solution for the better heuristic");
 		betterHeuristicEngine.findSolution();

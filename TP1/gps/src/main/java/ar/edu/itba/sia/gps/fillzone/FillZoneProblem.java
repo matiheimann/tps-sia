@@ -18,13 +18,8 @@ public class FillZoneProblem implements Problem {
 
 	FillZoneState initState;
 	
-	private static GameWindow window;
-	
 	public FillZoneProblem(String fileName) {
 		parseFile(fileName);
-		
-		window = new GameWindow(initState.getBoard());
-		//System.out.println("Isle Count: " + initState.getGraph().getIsleCount() + "\n");
 	}
 
 	@Override
@@ -78,10 +73,6 @@ public class FillZoneProblem implements Problem {
 
 		input.close();
 		initState = new FillZoneState(board);
-	}
-	
-	public GameWindow getWindow() {
-		return window;
 	}
 
 }

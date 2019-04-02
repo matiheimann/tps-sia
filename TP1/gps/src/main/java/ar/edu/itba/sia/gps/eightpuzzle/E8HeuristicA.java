@@ -23,7 +23,7 @@ public class E8HeuristicA implements Heuristic {
 	public Integer getValue(State state) {
 		int count = 0;
 		for (int i = 0; i < 8; i++) {
-			if (((E8State) state).getArray()[i].equals(solution.getArray()[i])) {
+			if (!((E8State) state).getArray()[i].equals(solution.getArray()[i])) {
 				count++;
 			}
 		}

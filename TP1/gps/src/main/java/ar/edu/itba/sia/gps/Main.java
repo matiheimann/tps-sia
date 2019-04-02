@@ -12,11 +12,14 @@ import ar.edu.itba.sia.gps.api.Heuristic;
 import ar.edu.itba.sia.gps.fillzone.Color;
 import ar.edu.itba.sia.gps.fillzone.FillZoneProblem;
 import ar.edu.itba.sia.gps.fillzone.FillZoneState;
+import ar.edu.itba.sia.gps.fillzone.GameWindow;
 import ar.edu.itba.sia.gps.fillzone.IsleCountHeuristic;
 import ar.edu.itba.sia.gps.fillzone.MaxDistanceHeuristic;
 import ar.edu.itba.sia.gps.fillzone.NeighbourHeuristic;
 
 public class Main {
+	
+	private static GameWindow window;
 
 	public static void main(String[] args) {
 		FillZoneProblem problem = new FillZoneProblem("input.txt");
@@ -96,8 +99,14 @@ public class Main {
     }
 	
 	private static void showSolution(List<GPSNode> solutionPath, FillZoneProblem problem, SearchStrategy strat, Heuristic heuristic) {
+		if (window == null) {
+			FillZoneState fsz = (FillZoneState) problem.getInitState();
+			window = new GameWindow(fsz.getBoard());
+		}
+		int totalStates = solutionPath.size();
 		for(GPSNode node : solutionPath) {
-			problem.getWindow().update(((FillZoneState)node.getState()).getBoard(), strat, heuristic);
+			FillZoneState fsz = (FillZoneState) node.getState();
+			window.update(fsz.getBoard(), node.getCost() + 1, totalStates, strat, heuristic);
 			try {
 				TimeUnit.MILLISECONDS.sleep(500);
 			} catch (InterruptedException e) {
