@@ -22,7 +22,7 @@ public class Main {
 	private static GameWindow window;
 
 	public static void main(String[] args) {
-		FillZoneProblem problem = new FillZoneProblem("input.txt");
+		FillZoneProblem problem = new FillZoneProblem(5, 5);
 		Heuristic neighbourHeuristic = new NeighbourHeuristic();
 		Heuristic isleCountHeuristic = new IsleCountHeuristic();
 		Heuristic maxDistanceHeuristic = new MaxDistanceHeuristic();
