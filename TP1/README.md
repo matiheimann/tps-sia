@@ -6,7 +6,7 @@ Please check that maven is installed and `JAVA_HOME` is set accordingly.
 
 ```bash
 git clone git@bitbucket.org:itba/sia-2019-1c-08.git
-cd TP1/gps
+cd sia-2019-1c-08/TP1/gps
 mvn clean
 mvn package -Pgps
 mvn package -Pfillzone
