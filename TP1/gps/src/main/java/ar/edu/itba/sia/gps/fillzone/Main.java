@@ -37,7 +37,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		FillZoneProblem problem = initProblem(args);
-		SearchStrategy strategy = SearchStrategy.valueOf(args[0].toUpperCase());
+		SearchStrategy strategy = args[0].toUpperCase().equals("ALL") ? null : SearchStrategy.valueOf(args[0].toUpperCase());
 		List<Heuristic> heuristics = new LinkedList<>();
 		heuristics.add(new UnvisitedCellsHeuristic());
 		heuristics.add(new IsleCountHeuristic());
