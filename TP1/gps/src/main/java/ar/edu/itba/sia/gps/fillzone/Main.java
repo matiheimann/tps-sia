@@ -23,42 +23,54 @@ import ar.edu.itba.sia.gps.fillzone.UnvisitedCellsHeuristic;
 public class Main {
 	
 	private static final String HELP = "Usage:\n"
-			+ "\t1. fillzone (runs with 5x5 random generated board)\n"
-			+ "\t2. fillzone <filename> (runs with board inside a file)\n"
+			+ "\t<searchStrategy> = <all|bfs|dfs|iddfs|greedy|astar>\n\n"
+			+ "\t1. fillzone <searchStrategy> (runs with 5x5 random generated board)\n"
+			+ "\t2. fillzone <searchStrategy> <filename> (runs with board inside a file)\n"
 			+ "\t\tFile format example:\n"
 			+ "\t\t\t3 5\n"
 			+ "\t\t\t35201\n"
 			+ "\t\t\t21043\n"
 			+ "\t\t\t20013\n"
-			+ "\t3. fillzone <height> <width> (runs with height * width random generated board)\n";
+			+ "\t3. fillzone <searchStrategy> <height> <width> (runs with height * width random generated board)\n";
 	
 	private static GameWindow window;
 
 	public static void main(String[] args) {
 		FillZoneProblem problem = initProblem(args);
-		Heuristic neighbourHeuristic = new UnvisitedCellsHeuristic();
-		Heuristic isleCountHeuristic = new IsleCountHeuristic();
-		Heuristic maxDistanceHeuristic = new MaxDistanceHeuristic();
-		findSolution(problem, SearchStrategy.BFS, null);
-		findSolution(problem, SearchStrategy.DFS, null);
-		findSolution(problem, SearchStrategy.IDDFS, null);
-		findSolution(problem, SearchStrategy.GREEDY, neighbourHeuristic);
-		findSolution(problem, SearchStrategy.ASTAR, neighbourHeuristic);
-		findSolution(problem, SearchStrategy.GREEDY, maxDistanceHeuristic);
-		findSolution(problem, SearchStrategy.ASTAR, maxDistanceHeuristic);
-		findSolution(problem, SearchStrategy.GREEDY, isleCountHeuristic);
-		findSolution(problem, SearchStrategy.ASTAR, isleCountHeuristic);
+		SearchStrategy strategy = SearchStrategy.valueOf(args[0].toUpperCase());
+		List<Heuristic> heuristics = new LinkedList<>();
+		heuristics.add(new UnvisitedCellsHeuristic());
+		heuristics.add(new IsleCountHeuristic());
+		heuristics.add(new MaxDistanceHeuristic());
+		
+		for (SearchStrategy s : SearchStrategy.values()) {
+			if (strategy != null && strategy != s)
+				continue;
+				
+			if (s != SearchStrategy.GREEDY && s != SearchStrategy.ASTAR) {
+				findSolution(problem, s, null);
+			} else {
+				for (Heuristic heuristic : heuristics) {
+					findSolution(problem, s, heuristic);
+				}
+			}
+		}
 	}
 	
 	private static FillZoneProblem initProblem(String[] args) {
 		try {
+			if (args.length > 0 && !args[0].equals("all")) {
+				SearchStrategy.valueOf(args[0].toUpperCase());
+			}
 			switch (args.length) {
 				case 0:
-					return new FillZoneProblem(5, 5);
+					break;
 				case 1:
-					return new FillZoneProblem(new File(args[0]));
+					return new FillZoneProblem(5, 5);
 				case 2:
-					return new FillZoneProblem(Integer.valueOf(args[0]), Integer.valueOf(args[1]));
+					return new FillZoneProblem(new File(args[1]));
+				case 3:
+					return new FillZoneProblem(Integer.valueOf(args[1]), Integer.valueOf(args[2]));
 				default:
 					System.out.println("ERROR: too many arguments.");
 			}
@@ -66,6 +78,8 @@ public class Main {
 			System.out.println("ERROR: input file not found.");
 		} catch (NumberFormatException e) {
 			System.out.println("ERROR: invalid numbers format.");
+		} catch (IllegalArgumentException e) {
+			System.out.println("ERROR: invalid strategy.");
 		}
 		System.out.print(HELP);
 		System.exit(1);
@@ -142,9 +156,9 @@ public class Main {
 		for(GPSNode node : solutionPath) {
 			while(window.isPaused()) {}
 			FillZoneState fsz = (FillZoneState) node.getState();
-			window.update(fsz.getBoard(), node.getCost() + 1, totalStates, strat, heuristic);
+			window.update(fsz.getBoard(), node.getCost(), totalStates - 1, strat, heuristic);
 			try {
-				TimeUnit.MILLISECONDS.sleep(1000);
+				TimeUnit.MILLISECONDS.sleep(750);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
