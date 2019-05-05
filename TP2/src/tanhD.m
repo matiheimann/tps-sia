@@ -1,3 +1,3 @@
-function result = tanhD(x)
-  result = 1 - tanh(x).^2;
-endfunction
+function y = tanhD(x)
+  y = 1 - tanh(x)^2;
+end
