@@ -4,7 +4,7 @@
 dataset = dlmread("terrain08.data")(2:end, :);
 
 # Number of neurons for each hidden layer (array length = hidden layers count)
-hidden_layers = [4, 3];
+hidden_layers = [4, 4];
 
 # Activation functions for each layer
 functions = {@tanh, @tanh, @tanh};
@@ -18,5 +18,7 @@ outputs = 1;
 # Number of patters for training
 patterns = 100;
 
+# Learning rate
 eta = 0.01;
+
 epsilon = 0.1;

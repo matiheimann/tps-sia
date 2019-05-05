@@ -1,4 +1,5 @@
 function w = training()
+  config;
   
   #Dataset inputs
   e = dataset(1:patterns, 1:end - outputs);
@@ -6,19 +7,52 @@ function w = training()
   #Dataset outputs
   s = dataset(1:patterns, end - outputs + 1:end);
   
-  # Inputs for next layer (number of columns = number of patterns)
-  v = {[-1 * ones(rows(e), 1), e]'};
-  
   # Random weight initialization
   w = {rand(hidden_layers(1), columns(e) + 1) - 0.5};
   for i = 1:length(hidden_layers) - 1
-    w{i + 1} = rand(hidden_layers(i + 1), hidden_layers(i) + 1) - 0.5;
+    w{end + 1} = rand(hidden_layers(i + 1), hidden_layers(i) + 1) - 0.5;
   endfor
   w{end + 1} = rand(outputs, hidden_layers(end) + 1) - 0.5;
   
   # Iterate until all patterns match calculated output with expected output
   redo = true;
-  while(redo)
+  while (redo)
+    order = randperm(rows(e));
+    redo = false;
+    max = 0;
+    while(!isempty(order))
+      index = order(end);
+      order(end) = [];
+      
+      v = {[-1, e(index, :)]'};
+      
+      for i = 1:length(hidden_layers)
+        v{i + 1} = arrayfun(functions{i}, w{i} * v{i});
+        v{i + 1} = [-1; v{i + 1}];
+      endfor
+      v{end + 1} = arrayfun(functions{end}, w{end} * v{end});
+      
+      if abs(v{end} - s(index)) > epsilon
+        if abs(v{end} - s(index)) > max
+          max = abs(v{end} - s(index));
+        endif
+        redo = true;
+        
+        d{length(v)} = arrayfun(derivatives{end}, w{end}(:, 2:end) * v{end - 1}(2:end, :)) .* (s(index) - v{end});
+        for i = 1:length(d) - 2
+          d{end - i} = arrayfun(derivatives{end - i}, w{end - i}(:, 2:end) * v{end - i - 1}(2:end, :)) .* (w{end - i + 1}(:, 2:end)' * d{end - i + 1});
+        endfor
+        
+        for i = 1:length(w)
+          dw = eta * (d{i + 1} * v{i}');
+          w{i} = w{i} + dw;
+        endfor
+      endif
+      
+    endwhile
+    max
+  endwhile
+    
     # ...
     # O = randperm(rows(M));
     # redo = false;
@@ -47,10 +81,5 @@ function w = training()
     #    redo = true;
     #  endif
     # endwhile
-    
-    if(abs(V{end} - M(index, end)) < epsilon)
-      redo = false;
-    endif
-  endwhile
   
 endfunction

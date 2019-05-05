@@ -1,6 +1,7 @@
 function z = neuralNetwork(e, w)
   
-  v = {[-1; e]};
+  v = {[-1, e]'};
+  v{length(hidden_layers) + 2} = zeros(outputs, 1);
 
   for i = 1:length(hidden_layers)
     v{i + 1} = arrayfun(functions{i}, w{i} * v{i});
@@ -8,6 +9,6 @@ function z = neuralNetwork(e, w)
   endfor
   v{end + 1} = arrayfun(functions{end}, w{end} * v{end});
   
-  z = v{end};
+  z = v{end}';
   
 endfunction
