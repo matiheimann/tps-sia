@@ -1,4 +1,5 @@
 function z = neuralNetwork(e, w)
+  config;
   
   v = {[-1, e]'};
   v{length(hidden_layers) + 2} = zeros(outputs, 1);

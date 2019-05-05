@@ -1,11 +1,17 @@
-function w = training()
+function [w, min, max] = training()
   config;
   
   #Dataset inputs
   e = dataset(1:patterns, 1:end - outputs);
+  for i = 1:columns(e)
+    e(:, i) = normalize(e(:, i), -1, 1);
+  endfor
   
   #Dataset outputs
   s = dataset(1:patterns, end - outputs + 1:end);
+  for i = 1:columns(s)
+    s(:, i) = normalize(s(:, i), -1, 1);
+  endfor
   
   # Random weight initialization
   w = {rand(hidden_layers(1), columns(e) + 1) - 0.5};
