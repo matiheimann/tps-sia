@@ -1,4 +1,4 @@
-function [w, min, max] = training()
+function w = training()
   config;
   
   # Dataset inputs and outputs
@@ -22,11 +22,11 @@ function [w, min, max] = training()
   
   # Normalization
   for i = 1:columns(e)
-    e(:, i) = normalize(e(:, i), -1, 1);
+    #e(:, i) = normalize(e(:, i), -1, 1);
   endfor
   
   for i = 1:columns(s)
-    s(:, i) = normalize(s(:, i), -1, 1);
+    #s(:, i) = normalize(s(:, i), -1, 1);
   endfor
   
   # Random weight initialization
@@ -44,7 +44,7 @@ function [w, min, max] = training()
   while (redo)
     order = randperm(rows(e));
     redo = false;
-    max = 0;
+    max_error = 0;
     while(!isempty(order))
       index = order(end);
       order(end) = [];
@@ -57,17 +57,18 @@ function [w, min, max] = training()
       endfor
       v{end + 1} = arrayfun(functions{end}, w{end} * v{end});
 
-      # error = 0.5 * sum((s(index, :)' - v{end}) .^ 2) / outputs;
-      error = sum(abs(s(index, :)' - v{end}));
-      if error > epsilon
-        if error > max
-          max = error;
+      #error = sum(abs(s(index, :)' - v{end}));
+      #if error > epsilon
+      error = sum((s(index, :)' - v{end}) .^ 2) / outputs;
+      if error > epsilon ^ 2
+        if error > max_error
+          max_error = error;
         endif
         redo = true;
         
-        d{length(v)} = arrayfun(derivatives{end}, w{end}(:, 2:end) * v{end - 1}(2:end, :)) .* (s(index) - v{end});
+        d{length(v)} = arrayfun(derivatives{end}, w{end} * v{end - 1}) .* (s(index) - v{end});
         for i = 1:length(d) - 2
-          d{end - i} = arrayfun(derivatives{end - i}, w{end - i}(:, 2:end) * v{end - i - 1}(2:end, :)) .* (w{end - i + 1}(:, 2:end)' * d{end - i + 1});
+          d{end - i} = arrayfun(derivatives{end - i}, w{end - i} * v{end - i - 1}) .* (w{end - i + 1}(:, 2:end)' * d{end - i + 1});
         endfor
         
         for i = 1:length(w)
@@ -78,7 +79,7 @@ function [w, min, max] = training()
       endif
       
     endwhile
-    max
+    max_error
   endwhile
     
     # ...
