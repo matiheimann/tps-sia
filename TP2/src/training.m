@@ -26,11 +26,12 @@ function [w, normalization_mins, normalization_maxs] = training()
   w{end + 1} = rand(outputs, hidden_layers(end) + 1) - 0.5;
   
   # Iterate until all patterns match calculated output with expected output
-  redo = true;
   for i = 1:length(w)
     last_dw{i} = zeros(rows(w{i}), columns(w{i}));
   endfor
-  while (redo)
+  redo = true;
+  epochs = 0;
+  while (redo && (max_epochs == -1 || epochs < max_epochs))
     order = randperm(rows(e));
     redo = false;
     max_error = 0;
@@ -68,6 +69,7 @@ function [w, normalization_mins, normalization_maxs] = training()
       endif
       
     endwhile
+    epochs++;
     max_error
   endwhile
 endfunction

@@ -27,6 +27,9 @@ patterns = 0.25;
 # Optional input patterns for training
 input_patterns = [1, 16];
 
+# Max epochs
+max_epochs = -1;
+
 # Learning rate
 eta = 0.01;
 
