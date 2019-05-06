@@ -6,26 +6,32 @@ dataset = dlmread("terrain08.data")(2:end, :);
 # Number of neurons for each hidden layer (array length = hidden layers count)
 hidden_layers = [12, 12, 12];
 
+# Activation function index to use (1: hyperbolic tangent, 2: exponential)
+fn_index = 1;
+
 # Activation functions for each layer
-functions = {@tanh, @tanh, @tanh, @tanh};
+functions = {@hyp_tan, @expn};
 
 # Activation functions derivatives for each layer
-derivatives = {@tanhD, @tanhD, @tanhD, @tanhD};
+derivatives = {@hyp_tanD, @expnD};
+
+# Activation function beta value
+beta = 1;
 
 # Number of outputs
 outputs = 1;
 
-# Percentage of patters for training
+# Percentage of patterns for training
 patterns = 0.1;
 
 # Optional input patterns for training
-input_patterns = [1, 2];
+input_patterns = [1, 16];
 
 # Learning rate
 eta = 0.01;
 
 # Allowed error
-epsilon = 0.1;
+epsilon = 0.01;
 
 # Momentum
 momentum_alpha = 0.9;
