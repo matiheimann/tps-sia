@@ -19,6 +19,10 @@ outputs = 1;
 patterns = 100;
 
 # Learning rate
-eta = 0.1;
+eta = 0.01;
 
+# Allowed error
 epsilon = 0.1;
+
+# Momentum
+momentum_alpha = 0.9;

@@ -22,6 +22,9 @@ function [w, min, max] = training()
   
   # Iterate until all patterns match calculated output with expected output
   redo = true;
+  for i = 1:length(w)
+    last_dw{i} = zeros(rows(w{i}), columns(w{i}));
+  endfor
   while (redo)
     order = randperm(rows(e));
     redo = false;
@@ -37,10 +40,12 @@ function [w, min, max] = training()
         v{i + 1} = [-1; v{i + 1}];
       endfor
       v{end + 1} = arrayfun(functions{end}, w{end} * v{end});
-      
-      if abs(v{end} - s(index)) > epsilon
-        if abs(v{end} - s(index)) > max
-          max = abs(v{end} - s(index));
+
+      # error = 0.5 * sum((s(index, :)' - v{end}) .^ 2) / outputs;
+      error = sum(abs(s(index, :)' - v{end}));
+      if error > epsilon
+        if error > max
+          max = error;
         endif
         redo = true;
         
@@ -50,9 +55,10 @@ function [w, min, max] = training()
         endfor
         
         for i = 1:length(w)
-          dw = eta * (d{i + 1} * v{i}');
-          w{i} = w{i} + dw;
+          dw{i} = eta * (d{i + 1} * v{i}') + momentum_alpha * last_dw{i};
+          w{i} = w{i} + dw{i};
         endfor
+        last_dw = dw;
       endif
       
     endwhile
