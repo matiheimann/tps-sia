@@ -1,10 +1,8 @@
-function normalized = normalize(array, x, y)
+function normalized = normalize(array, range, min, max)
   % Normalize to [0, 1]:
-  m = min(array);
-  range = max(array) - m;
-  array = (array - m) / range;
+  array = (array - min) / (max - min);
 
   % Then scale to [x,y]:
-  range2 = y - x;
-  normalized = (array*range2) + x;
+  range2 = range(2) - range(1);
+  normalized = (array*range2) + range(1);
 endfunction

@@ -1,4 +1,4 @@
-function w = training()
+function [w, normalization_mins, normalization_maxs] = training()
   config;
   
   # Dataset inputs and outputs
@@ -22,11 +22,15 @@ function w = training()
   
   # Normalization
   for i = 1:columns(e)
-    #e(:, i) = normalize(e(:, i), -1, 1);
+    normalization_mins{i} = min(e(:, i));
+    normalization_maxs{i} = max(e(:, i));
+    e(:, i) = normalize(e(:, i), normalization_ranges(i, :), normalization_mins{i}, normalization_maxs{i});
   endfor
   
   for i = 1:columns(s)
-    #s(:, i) = normalize(s(:, i), -1, 1);
+    normalization_mins{columns(e) + i} = min(s(:, i));
+    normalization_maxs{columns(e) + i} = max(s(:, i));
+    s(:, i) = normalize(s(:, i), normalization_ranges(columns(e) + i, :), normalization_mins{columns(e) + i}, normalization_maxs{columns(e) + i});
   endfor
   
   # Random weight initialization
@@ -52,10 +56,10 @@ function w = training()
       v = {[-1, e(index, :)]'};
       
       for i = 1:length(hidden_layers)
-        v{i + 1} = arrayfun(functions{i}, w{i} * v{i});
+        v{i + 1} = arrayfun(function_g, w{i} * v{i});
         v{i + 1} = [-1; v{i + 1}];
       endfor
-      v{end + 1} = arrayfun(functions{end}, w{end} * v{end});
+      v{end + 1} = arrayfun(function_g, w{end} * v{end});
 
       #error = sum(abs(s(index, :)' - v{end}));
       #if error > epsilon
@@ -66,9 +70,9 @@ function w = training()
         endif
         redo = true;
         
-        d{length(v)} = arrayfun(derivatives{end}, w{end} * v{end - 1}) .* (s(index) - v{end});
+        d{length(v)} = arrayfun(derivative_g, w{end} * v{end - 1}) .* (s(index) - v{end});
         for i = 1:length(d) - 2
-          d{end - i} = arrayfun(derivatives{end - i}, w{end - i} * v{end - i - 1}) .* (w{end - i + 1}(:, 2:end)' * d{end - i + 1});
+          d{end - i} = arrayfun(derivative_g, w{end - i} * v{end - i - 1}) .* (w{end - i + 1}(:, 2:end)' * d{end - i + 1});
         endfor
         
         for i = 1:length(w)
