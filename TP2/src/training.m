@@ -1,14 +1,30 @@
 function [w, min, max] = training()
   config;
   
-  #Dataset inputs
-  e = dataset(1:patterns, 1:end - outputs);
+  # Dataset inputs and outputs
+  if(!isempty(input_patterns))
+    # Validar no repetidos y porcentaje menor a input list...
+    pattern_qty = round(patterns * rows(dataset)) - length(input_patterns);
+    n = setdiff(1:rows(dataset), input_patterns);
+    arr_aux = randperm(length(n));
+    training_set = [n(arr_aux)(1:pattern_qty) input_patterns];
+    arr_aux = randperm(length(training_set));
+    training_set = training_set(arr_aux);
+  else
+    pattern_qty = round(patterns * rows(dataset));
+    training_set = randperm(rows(dataset))(1:pattern_qty);
+  endif
+  
+  for i = 1:pattern_qty
+    e(i, :) = dataset(training_set(i), 1:end - outputs);
+    s(i, :) = dataset(training_set(i), end - outputs + 1:end);
+  endfor
+  
+  # Normalization
   for i = 1:columns(e)
     e(:, i) = normalize(e(:, i), -1, 1);
   endfor
   
-  #Dataset outputs
-  s = dataset(1:patterns, end - outputs + 1:end);
   for i = 1:columns(s)
     s(:, i) = normalize(s(:, i), -1, 1);
   endfor

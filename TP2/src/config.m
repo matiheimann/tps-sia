@@ -15,8 +15,11 @@ derivatives = {@tanhD, @tanhD, @tanhD};
 # Number of outputs
 outputs = 1;
 
-# Number of patters for training
-patterns = 100;
+# Percentage of patters for training
+patterns = 0.1;
+
+# Optional input patterns for training
+input_patterns = [1, 2];
 
 # Learning rate
 eta = 0.01;
