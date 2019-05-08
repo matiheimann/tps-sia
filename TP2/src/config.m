@@ -30,14 +30,20 @@ input_patterns = [1, 16];
 # Max epochs
 max_epochs = -1;
 
-# Learning rate
-eta = 0.01;
-
 # Allowed error
 epsilon = 0.1;
 
-# Momentum
+# Learning rate
+eta = 0.01;
+
+# Momentum params
 momentum_alpha = 0.9;
 
+# Adaptative eta params
+eta_a = 0.001;
+eta_b = 0.1;
+eta_min = 0.01;
+epoch_min_reduction_steps = 5;
+
 # Normalization ranges
-normalization_ranges = [-1, 1; -1, 1; -1, 1];
+normalization_ranges = [-1.7, 1.7; -1.7, 1.7; -tanh(1.7), tanh(1.7)];

@@ -33,7 +33,7 @@ function validate_config()
     error("Epsilon value must be positive");
   endif
   
-  if momentum_alpha <= 0 || momentum_alpha >= 1
+  if momentum_alpha < 0 || momentum_alpha > 1
     error("Momentum alpha value must be in range (0,1)");
   endif
 endfunction

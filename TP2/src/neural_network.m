@@ -1,4 +1,4 @@
-function z = neuralNetwork(e, w, normalization_mins, normalization_maxs)
+function z = neural_network(e, w, normalization_mins, normalization_maxs)
   config;
   
   for i = 1:columns(e)
