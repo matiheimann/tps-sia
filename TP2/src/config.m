@@ -46,7 +46,7 @@ eta = 0.001;
 momentum_alpha = 0.9;
 
 # Adaptative eta params
-eta_a = 0.0000001;
+eta_a = 0.00001;
 eta_b = 0.1;
-eta_min = 0.000001;
+eta_min = 0;
 epoch_min_reduction_steps = 3;
