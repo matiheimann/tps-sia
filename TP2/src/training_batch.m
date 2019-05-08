@@ -58,8 +58,9 @@ function [w, normalization_mins, normalization_maxs] = training_batch()
       redo = true;
     endif
     epoch_errors(end + 1) = error;
+    error
     
-    #{  
+    #{ 
     if (eta_a != 0 && eta_b != 0 && length(epoch_errors) > 1)
       if (epoch_errors(end) < epoch_errors(end - 1))
         epoch_reduction_steps++;
@@ -69,11 +70,11 @@ function [w, normalization_mins, normalization_maxs] = training_batch()
         endif
       else
         if epoch_reduction_steps > 0
-          epoch_reduction_steps--;
+          epoch_reduction_steps = 0;
         endif
         if ((eta - eta_b * eta) >= eta_min) 
           epochs--;
-          epoch_errors = epoch_errors(:, 1:end-1);
+          epoch_errors = epoch_errors(1:end-1);
           eta = eta - eta_b * eta
           w = epoch_last_w;
           last_dw = last_dw_0;
@@ -98,7 +99,6 @@ function [w, normalization_mins, normalization_maxs] = training_batch()
     endif
     
     epochs++;
-    error
   endwhile
   printf("Epochs: %d\n", epochs);
   printf("Training time: %d seconds.\n", time() - start_time);

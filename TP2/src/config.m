@@ -9,14 +9,20 @@ hidden_layers = [12, 12];
 # Activation function index to use (1: hyperbolic tangent, 2: exponential)
 fn_index = 1;
 
-# Activation functions for each layer
+# Activation functions
 functions = {@hyp_tan, @expn};
 
-# Activation functions derivatives for each layer
-derivatives = {@hyp_tanD, @expnD};
+# Activation functions derivatives
+derivatives = {@hyp_tan_derivative, @expn_derivative};
+
+# Activation functions inverses
+inverses = {@hyp_tan_inverse, @expn_inverse};
 
 # Activation function beta value
-beta = 1;
+beta = 1.0;
+
+# Normalization ranges
+normalization_ranges = [-1.7, 1.7; -1.7, 1.7; functions{fn_index}(-1.7, beta), functions{fn_index}(1.7, beta)];
 
 # Number of outputs
 outputs = 1;
@@ -40,10 +46,7 @@ eta = 0.01;
 momentum_alpha = 0.9;
 
 # Adaptative eta params
-eta_a = 0.001;
+eta_a = 0.00001;
 eta_b = 0.1;
-eta_min = 0.01;
-epoch_min_reduction_steps = 5;
-
-# Normalization ranges
-normalization_ranges = [-1.7, 1.7; -1.7, 1.7; -tanh(1.7), tanh(1.7)];
+eta_min = 0.00001;
+epoch_min_reduction_steps = 3;
