@@ -28,25 +28,25 @@ normalization_ranges = [-1.7, 1.7; -1.7, 1.7; functions{fn_index}(-1.7, beta), f
 outputs = 1;
 
 # Percentage of patterns for training
-patterns = 0.25;
+patterns = 0.1;
 
 # Optional input patterns for training
-input_patterns = [1, 16];
+input_patterns = [1, 2, 3];
 
 # Max epochs
 max_epochs = -1;
 
 # Allowed error
-epsilon = 0.1;
+epsilon = 0.01;
 
 # Learning rate
-eta = 0.01;
+eta = 0.001;
 
 # Momentum params
 momentum_alpha = 0.9;
 
 # Adaptative eta params
-eta_a = 0.00001;
+eta_a = 0.0000001;
 eta_b = 0.1;
-eta_min = 0.00001;
+eta_min = 0.000001;
 epoch_min_reduction_steps = 3;
