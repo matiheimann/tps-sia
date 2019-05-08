@@ -45,7 +45,7 @@ function [w, normalization_mins, normalization_maxs] = training_batch()
   redo = true;
   start_time = time();
   while (redo && (max_epochs == -1 || epochs < max_epochs))
-    
+
     redo = false;
       
     for i = 1:length(hidden_layers)
@@ -66,7 +66,7 @@ function [w, normalization_mins, normalization_maxs] = training_batch()
         epoch_reduction_steps++;
         if (epoch_reduction_steps == epoch_min_reduction_steps)
           epoch_reduction_steps = 0;
-          eta = eta + eta_a * epoch_min_reduction_steps;
+          eta = eta + eta_a;
         endif
       else
         if epoch_reduction_steps > 0

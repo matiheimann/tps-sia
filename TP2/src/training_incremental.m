@@ -65,7 +65,7 @@ function [w, normalization_mins, normalization_maxs] = training_incremental()
         epoch_reduction_steps++;
         if (epoch_reduction_steps == epoch_min_reduction_steps)
           epoch_reduction_steps = 0;
-          eta = eta + eta_a * epoch_min_reduction_steps;
+          eta = eta + eta_a;
         endif
       else
         if epoch_reduction_steps > 0
