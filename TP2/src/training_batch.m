@@ -1,4 +1,4 @@
-function [w, normalization_mins, normalization_maxs] = training_batch()
+function w = training_batch()
   config;
   validate_config();
   
@@ -7,15 +7,11 @@ function [w, normalization_mins, normalization_maxs] = training_batch()
   
   # Normalization
   for i = 1:columns(e)
-    normalization_mins{i} = min(e(:, i));
-    normalization_maxs{i} = max(e(:, i));
-    e(:, i) = normalize(e(:, i), normalization_ranges(i, :), normalization_mins{i}, normalization_maxs{i});
+    e(:, i) = normalize(e(:, i), normalization_ranges(i, :), normalization_mins(i), normalization_maxs(i));
   endfor
   
   for i = 1:columns(s)
-    normalization_mins{columns(e) + i} = min(s(:, i));
-    normalization_maxs{columns(e) + i} = max(s(:, i));
-    s(:, i) = normalize(s(:, i), normalization_ranges(columns(e) + i, :), normalization_mins{columns(e) + i}, normalization_maxs{columns(e) + i});
+    s(:, i) = normalize(s(:, i), normalization_ranges(columns(e) + i, :), normalization_mins(columns(e) + i), normalization_maxs(columns(e) + i));
   endfor
   
   v = {[-1 * ones(1, rows(e)); e']};

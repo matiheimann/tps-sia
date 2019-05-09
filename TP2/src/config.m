@@ -23,6 +23,8 @@ beta = 1.0;
 
 # Normalization ranges
 normalization_ranges = [-1.7, 1.7; -1.7, 1.7; functions{fn_index}(-1.7, beta), functions{fn_index}(1.7, beta)];
+normalization_mins = min(dataset);
+normalization_maxs = max(dataset);
 
 # Number of outputs
 outputs = 1;

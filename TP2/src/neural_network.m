@@ -1,11 +1,11 @@
-function diff = neural_network(w, normalization_mins, normalization_maxs)
+function diff = neural_network(w)
   config;
   
   e = dataset(:, 1:end - outputs);
   s = dataset(:, end - outputs + 1:end);
   
   for i = 1:columns(e)
-    e(:, i) = normalize(e(:, i), normalization_ranges(i, :), normalization_mins{i}, normalization_maxs{i});
+    e(:, i) = normalize(e(:, i), normalization_ranges(i, :), normalization_mins(i), normalization_maxs(i));
   endfor
   
   v = {[-1 * ones(1, rows(e)); e']};
@@ -23,7 +23,7 @@ function diff = neural_network(w, normalization_mins, normalization_maxs)
   z = v{end}';
   
   for i = 1:columns(z)
-    z(:, i) = denormalize(z(:, i), normalization_ranges(columns(e) + i, :), normalization_mins{columns(e) + i}, normalization_maxs{columns(e) + i});
+    z(:, i) = denormalize(z(:, i), normalization_ranges(columns(e) + i, :), normalization_mins(columns(e) + i), normalization_maxs(columns(e) + i));
   endfor
   
   diff = abs(z - s);
