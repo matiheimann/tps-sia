@@ -27,11 +27,11 @@ function [w, normalization_mins, normalization_maxs] = training_batch()
   d{end + 1} = zeros(outputs, rows(e));
   
   # Random weight initialization
-  w = {rand(hidden_layers(1), columns(e) + 1) - 0.5};
+  w = {rand(hidden_layers(1), columns(e) + 1) * ((1/sqrt(columns(e) + 1)) - (-1/sqrt(columns(e) + 1))) + (-1/sqrt(columns(e) + 1))};
   for i = 1:length(hidden_layers) - 1
-    w{i + 1} = rand(hidden_layers(i + 1), hidden_layers(i) + 1) - 0.5;
+    w{i + 1} = rand(hidden_layers(i + 1), hidden_layers(i) + 1) * ((1/sqrt(hidden_layers(i) + 1)) - (-1/sqrt(hidden_layers(i) + 1))) + (-1/sqrt(hidden_layers(i) + 1));
   endfor
-  w{end + 1} = rand(outputs, hidden_layers(end) + 1) - 0.5;
+  w{end + 1} = rand(outputs, hidden_layers(end) + 1) * ((1/sqrt(hidden_layers(end) + 1)) - (-1/sqrt(hidden_layers(end) + 1))) + (-1/sqrt(hidden_layers(end) + 1));
   
   # Iterate until all patterns match calculated output with expected output
   for i = 1:length(w)
@@ -62,7 +62,7 @@ function [w, normalization_mins, normalization_maxs] = training_batch()
     
     ##{ 
     if (eta_a != 0 && eta_b != 0 && length(epoch_errors) > 1)
-      if (epoch_errors(end) < epoch_errors(end - 1))
+      if (epoch_errors(end) - epoch_errors(end - 1) < 0)
         epoch_reduction_steps++;
         if (epoch_reduction_steps == epoch_min_reduction_steps)
           epoch_reduction_steps = 0;
