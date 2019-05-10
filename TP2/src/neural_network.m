@@ -28,12 +28,6 @@ function diff = neural_network(w)
   
   diff = abs(z - s);
   
-  figure(1)
-  hist(diff)
-  title("Error distribution histogram")
-  xlabel("Error")
-  ylabel("Patterns")
-  
   generalization_capability = sum(diff < epsilon);
   printf("Generalization Capability = %d%%\n", (generalization_capability / rows(s)) * 100);
   
@@ -42,13 +36,18 @@ function diff = neural_network(w)
   [x, y] = meshgrid(limits_x, limits_y);
   z_data = griddata(e(:, 1), e(:, 2), s, x, y);
   z_generated = griddata(e(:, 1), e(:, 2), z, x, y);
+  z_error = griddata(e(:, 1), e(:, 2), diff, x, y);
   
-  figure(2)
+  figure(1)
   surf(x, y, z_data)
   title("Data Terrain")
   
-  figure(3)
+  figure(2)
   surf(x, y, z_generated)
   title("Generated Terrain");
+  
+  figure(3)
+  surf(x, y, z_error)
+  title("Error Terrain");
 
 endfunction
