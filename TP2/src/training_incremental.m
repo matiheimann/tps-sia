@@ -33,7 +33,10 @@ function w = training_incremental()
   for i = 1:length(w)
     last_dw_0{i} = zeros(rows(w{i}), columns(w{i}));
   endfor
-  last_dw = last_dw_0;
+  for i = 1:rows(e)
+    last_dw{i} = last_dw_0;
+  endfor
+  last_dw_0 = last_dw;
   epochs = 0;
   epoch_etas = [];
   epoch_errors = [];
@@ -60,13 +63,13 @@ function w = training_incremental()
     error
     if epochs == 0
       figure(1);
-      error_plot = plot(epoch_errors, 0:epochs);
+      error_plot = plot(epoch_errors, 0:length(epoch_errors));
       figure(2);
-      etas_plot = plot(epoch_etas, 0:epochs);
+      etas_plot = plot(epoch_etas, 0:length(epoch_etas));
     else
-      set(error_plot, 'XData', 0:epochs);
+      set(error_plot, 'XData', 0:length(epoch_errors));
       set(error_plot, 'YData', epoch_errors);
-      set(etas_plot, 'XData', 0:epochs);
+      set(etas_plot, 'XData', 0:length(epoch_etas));
       set(etas_plot, 'YData', epoch_etas);
       refresh();
     endif
@@ -114,10 +117,10 @@ function w = training_incremental()
         endfor
           
         for i = 1:length(w)
-          dw{i} = eta * (d{i + 1}(:, index) * v{i}(:, index)') + momentum_alpha * last_dw{i};
+          dw{i} = eta * (d{i + 1}(:, index) * v{i}(:, index)') + momentum_alpha * last_dw{index}{i};
           w{i} = w{i} + dw{i};
         endfor
-        last_dw = dw;
+        last_dw{index} = dw;
       endwhile
     endif
     

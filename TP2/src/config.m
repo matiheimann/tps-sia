@@ -4,7 +4,7 @@
 dataset = dlmread("terrain08.data")(2:end, :);
 
 # Number of neurons for each hidden layer (array length = hidden layers count)
-hidden_layers = [12, 12];
+hidden_layers = [24, 12];
 
 # Activation function index to use (1: hyperbolic tangent, 2: exponential)
 fn_index = 1;
