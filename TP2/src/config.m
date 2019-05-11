@@ -22,7 +22,9 @@ inverses = {@hyp_tan_inverse, @expn_inverse};
 beta = 1.0;
 
 # Normalization ranges
-normalization_ranges = [-1.7, 1.7; -1.7, 1.7; functions{fn_index}(-1.7, beta), functions{fn_index}(1.7, beta)];
+normalization_ranges = [inverses{fn_index}(-0.93, beta), inverses{fn_index}(0.93, beta); 
+                        inverses{fn_index}(-0.93, beta), inverses{fn_index}(0.93, beta); 
+                        -0.93, 0.93];
 normalization_mins = min(dataset);
 normalization_maxs = max(dataset);
 
