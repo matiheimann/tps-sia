@@ -1,4 +1,5 @@
 #Configuration file
+clear all;
 
 # Data set
 dataset = dlmread("terrain08.data")(2:end, :);
@@ -7,7 +8,7 @@ dataset = dlmread("terrain08.data")(2:end, :);
 hidden_layers = [12, 12];
 
 # Activation function index to use (1: hyperbolic tangent, 2: exponential)
-fn_index = 1;
+fn_index = 2;
 
 # Activation functions
 functions = {@hyp_tan, @expn};
@@ -22,9 +23,9 @@ inverses = {@hyp_tan_inverse, @expn_inverse};
 beta = 1.0;
 
 # Normalization ranges
-normalization_ranges = [inverses{fn_index}(-0.93, beta), inverses{fn_index}(0.93, beta); 
-                        inverses{fn_index}(-0.93, beta), inverses{fn_index}(0.93, beta); 
-                        -0.93, 0.93];
+normalization_ranges = [inverses{fn_index}(0.05, beta), inverses{fn_index}(0.95, beta); 
+                        inverses{fn_index}(0.05, beta), inverses{fn_index}(0.95, beta); 
+                        0.05, 0.95];
 normalization_mins = min(dataset);
 normalization_maxs = max(dataset);
 
@@ -38,28 +39,29 @@ patterns = 0.1;
 input_patterns = [];
 
 # Max epochs
-max_epochs = -1;
+global max_epochs = -1;
 
 # Allowed error
-epsilon = 0.01;
+global epsilon = 0.01;
 
 # Learning rate
-eta = 0.005;
+global eta = 0.1;
 
 # Weight optimization to use (0: Default, 1: Momentum, 2: Adam, 3: Adamax, 4: Nadam)
-weight_optimization = 2;
+global weight_optimization = 2;
 
 # Momentum params
-momentum_alpha = 0.9;
+global momentum_alpha = 0.9;
 
 # Adam params
-adam_beta1 = 0.9;
-adam_beta2 = 0.999;
-adam_epsilon = 1e-8;
+global adam_beta1 = 0.9;
+global adam_beta2 = 0.999;
+global adam_epsilon = 1e-8;
 
 # Adaptative eta params
-eta_a = 0.0;
-eta_b = 0.0;
-eta_min = 0.0;
-eta_max = 0.015;
-epoch_min_reduction_steps = 5;
+global adaptative_eta = false;
+global eta_a = 0.0001;
+global eta_b = 0.05;
+global eta_min = 0.0005;
+global eta_max = 0.1;
+global epoch_min_reduction_steps = 3;

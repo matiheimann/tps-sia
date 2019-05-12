@@ -1,4 +1,5 @@
 function w = training_incremental()
+  debug_on_interrupt(1)
   config;
   validate_config();
   
@@ -81,8 +82,39 @@ function w = training_incremental()
       refresh();
     endif
     
-    # Adaptative eta algorithm
+    # Adaptative eta algorithm 2
     ##{ 
+    if (adaptative_eta == true && length(epoch_errors) > 1)
+      if (epoch_errors(end) - epoch_errors(end - 1) < 0)
+        # Save last good weights
+        epoch_last_w = w;
+        eta_max = eta;
+        
+        epoch_reduction_steps++;
+        if (mod(epoch_reduction_steps, epoch_min_reduction_steps) == 0)
+          eta = eta + eta_a;
+        endif
+      else
+        if epochs > 100
+          if epoch_reduction_steps > epoch_min_reduction_steps
+            eta_max = eta - eta_b * eta;
+            w = epoch_last_w;
+          endif
+          eta = eta_max;
+          if eta < eta_min
+            eta = eta_min;
+          endif
+        endif
+        epoch_reduction_steps = 0;
+        epochs--;
+        epoch_etas = epoch_etas(1:end-1);
+        epoch_errors = epoch_errors(1:end-1);
+      endif
+    endif
+    #}
+    
+    # Adaptative eta algorithm 1
+    #{ 
     if (eta_a != 0 && eta_b != 0 && length(epoch_errors) > 1)
       if (epoch_errors(end) - epoch_errors(end - 1) < 0)
         # Save last good weights
