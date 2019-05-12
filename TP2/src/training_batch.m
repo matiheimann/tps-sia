@@ -1,5 +1,4 @@
 function w = training_batch()
-  debug_on_interrupt(1)
   config;
   validate_config();
   
