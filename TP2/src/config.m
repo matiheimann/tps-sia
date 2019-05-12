@@ -3,6 +3,10 @@
 # Debug mode
 DEBUG_MODE = true;
 debug_on_interrupt(DEBUG_MODE);
+global stop_now = false;
+dbstop in training_batch at 51 if stop_now == true;
+dbstop in training_incremental at 53 if stop_now == true;
+
 
 # Data set
 dataset = dlmread("terrain08.data")(2:end, :);
