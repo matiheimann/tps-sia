@@ -13,7 +13,7 @@ vim config.m # to tweak all configuration values
 
 By default, only 10% of the patterns in the dataset will be used for training the neural network. This can be modified by changing the `patterns` variable in `config.m`. If very specific patterns need to be used for the training, the `input_patterns` variable can be used. This array should only contain indexes that represent lines of given dataset file. Example:
 
-```bash
+```
 # terrain08.data file
       x1        x2         z
    -2.4584   -2.5350    0.4427
@@ -26,6 +26,8 @@ By default, only 10% of the patterns in the dataset will be used for training th
 
 If the `(2.0622, -0.9405, 0.3896)` and the `(2.8433, -2.3063, 0.7474)` patterns wish to be used during the training, `input_patterns` must be set like so:
 `input_patterns = [4, 2]`
+
+Patterns will be sorted randomly before each training.
 
 *NOTE:* Variables defined in the `config.m` file should not be removed. Their values should be changed as instructed in the comments placed above each variable. 
 
