@@ -35,11 +35,9 @@ function w = training_incremental()
   for i = 1:length(w)
     w_0{i} = zeros(rows(w{i}), columns(w{i}));
   endfor
-  for i = 1:rows(e)
-    last_dw{i} = w_0;
-    adam_m{i} = w_0;
-    adam_v{i} = w_0;
-  endfor
+  last_dw = w_0;
+  adam_m = w_0;
+  adam_v = w_0;
   epochs = 1;
   epoch_etas = [];
   epoch_errors = [];
@@ -178,32 +176,32 @@ function w = training_incremental()
               dw{i} = eta * g{i};
             # Momentum
             case 1
-              dw{i} = eta * g{i} + momentum_alpha * last_dw{index}{i};
+              dw{i} = eta * g{i} + momentum_alpha * last_dw{i};
             # Adam
             case 2
-              adam_m{index}{i} = adam_beta1 * adam_m{index}{i} + (1 - adam_beta1) * g{i};
-              adam_v{index}{i} = adam_beta2 * adam_v{index}{i} + (1 - adam_beta2) * (g{i} .^ 2);
-              m_hat = adam_m{index}{i} / (1 - (adam_beta1 ^ epochs));
-              v_hat = adam_v{index}{i} / (1 - (adam_beta2 ^ epochs));
+              adam_m{i} = adam_beta1 * adam_m{i} + (1 - adam_beta1) * g{i};
+              adam_v{i} = adam_beta2 * adam_v{i} + (1 - adam_beta2) * (g{i} .^ 2);
+              m_hat = adam_m{i} / (1 - (adam_beta1 ^ epochs));
+              v_hat = adam_v{i} / (1 - (adam_beta2 ^ epochs));
               dw{i} = eta * m_hat ./ (sqrt(v_hat) + adam_epsilon);
             # Adamax  
             case 3
-              adam_m{index}{i} = adam_beta1 * adam_m{index}{i} + (1 - adam_beta1) * g{i};
+              adam_m{i} = adam_beta1 * adam_m{i} + (1 - adam_beta1) * g{i};
               m_hat = adam_m{i} / (1 - (adam_beta1 ^ epochs));
-              adam_v{index}{i} = max(adam_beta2 * adam_v{index}{i}, abs(g{i}));
-              dw{i} = eta * m_hat ./ adam_v{index}{i};    
+              adam_v{i} = max(adam_beta2 * adam_v{i}, abs(g{i}));
+              dw{i} = eta * m_hat ./ adam_v{i};    
             # Nadam
             case 4
-              adam_m{index}{i} = adam_beta1 * adam_m{index}{i} + (1 - adam_beta1) * g{i};
-              adam_v{index}{i} = adam_beta2 * adam_v{index}{i} + (1 - adam_beta2) * (g{i} .^ 2);
-              m_hat = adam_m{index}{i} / (1 - (adam_beta1 ^ epochs)) + (1 - adam_beta1) * g{i} / (1 - (adam_beta1 ^ epochs));
-              v_hat = adam_v{index}{i} / (1 - (adam_beta2 ^ epochs));
+              adam_m{i} = adam_beta1 * adam_m{i} + (1 - adam_beta1) * g{i};
+              adam_v{i} = adam_beta2 * adam_v{i} + (1 - adam_beta2) * (g{i} .^ 2);
+              m_hat = adam_m{i} / (1 - (adam_beta1 ^ epochs)) + (1 - adam_beta1) * g{i} / (1 - (adam_beta1 ^ epochs));
+              v_hat = adam_v{i} / (1 - (adam_beta2 ^ epochs));
               dw{i} = eta * m_hat ./ (sqrt(v_hat) + adam_epsilon);
           endswitch
 
           w{i} = w{i} + dw{i};
         endfor
-        last_dw{index} = dw;
+        last_dw = dw;
       endwhile
     endif
     
