@@ -1,5 +1,4 @@
 # Configuration file
-clear all;
 
 # Debug mode
 DEBUG_MODE = true;

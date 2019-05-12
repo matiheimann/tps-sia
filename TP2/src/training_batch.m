@@ -1,5 +1,5 @@
 function w = training_batch()
-  debug_on_interrupt(1)
+  clear all;
   config;
   validate_config();
   
