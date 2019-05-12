@@ -18,10 +18,10 @@ function w = training_incremental()
   v = {[-1 * ones(1, rows(e)); e']};
   for i = 1:length(hidden_layers)
     v{i + 1} = [-1 * ones(1, rows(e)); zeros(hidden_layers(i), rows(e))];
-    d{i + 1} = zeros(hidden_layers(i), rows(e));
+    d{i + 1} = zeros(hidden_layers(i), 1);
   endfor
   v{end + 1} = zeros(outputs, rows(e));
-  d{end + 1} = zeros(outputs, rows(e));
+  d{end + 1} = zeros(outputs, 1);
   
   # Random weight initialization
   global w = {rand(hidden_layers(1), columns(e) + 1) * ((1/sqrt(columns(e) + 1)) - (-1/sqrt(columns(e) + 1))) + (-1/sqrt(columns(e) + 1))};
@@ -57,7 +57,7 @@ function w = training_incremental()
       v{i + 1}(2:end, :) = arrayfun(functions{fn_index}, w{i} * v{i}, beta);
     endfor
     v{end} = arrayfun(functions{fn_index}, w{end} * v{end - 1}, beta);
-    
+
     # Calculate output error (ecm) for each pattern and get mean
     error = mean(sum((s' - v{end}) .^ 2, 1) / outputs);
     if error > epsilon ^ 2
@@ -163,13 +163,13 @@ function w = training_incremental()
         v{end}(:, index) = arrayfun(functions{fn_index}, w{end} * v{end - 1}(:, index), beta);
 
         # Calculate new weights
-        d{end}(:, index) = arrayfun(derivatives{fn_index}, w{end} * v{end - 1}(:, index), beta) .* (s(index) - v{end}(:, index));
+        d{end} = arrayfun(derivatives{fn_index}, w{end} * v{end - 1}(:, index), beta) .* (s'(:, index) - v{end}(:, index));
         for i = 1:length(d) - 2
-          d{end - i}(:, index) = arrayfun(derivatives{fn_index}, w{end - i} * v{end - i - 1}(:, index), beta) .* (w{end - i + 1}(:, 2:end)' * d{end - i + 1}(:, index));
+          d{end - i} = arrayfun(derivatives{fn_index}, w{end - i} * v{end - i - 1}(:, index), beta) .* (w{end - i + 1}(:, 2:end)' * d{end - i + 1});
         endfor
         
         for i = 1:length(w)
-          g{i} = (d{i + 1}(:, index) * v{i}(:, index)');
+          g{i} = (d{i + 1} * v{i}(:, index)');
           
           switch (weight_optimization)
             # SGD
