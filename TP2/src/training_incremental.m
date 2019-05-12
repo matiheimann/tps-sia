@@ -65,7 +65,6 @@ function w = training_incremental()
     epoch_etas(end + 1) = eta;
     
     # Print last error and graph etas and error for each epoch
-    error
     if epochs == 1
       figure(1);
       error_plot = plot(epoch_errors, 1:length(epoch_errors));
