@@ -1,5 +1,4 @@
 function w = training_incremental()
-  debug_on_interrupt(1)
   config;
   validate_config();
   
@@ -25,7 +24,7 @@ function w = training_incremental()
   d{end + 1} = zeros(outputs, rows(e));
   
   # Random weight initialization
-  w = {rand(hidden_layers(1), columns(e) + 1) * ((1/sqrt(columns(e) + 1)) - (-1/sqrt(columns(e) + 1))) + (-1/sqrt(columns(e) + 1))};
+  global w = {rand(hidden_layers(1), columns(e) + 1) * ((1/sqrt(columns(e) + 1)) - (-1/sqrt(columns(e) + 1))) + (-1/sqrt(columns(e) + 1))};
   for i = 1:length(hidden_layers) - 1
     w{i + 1} = rand(hidden_layers(i + 1), hidden_layers(i) + 1) * ((1/sqrt(hidden_layers(i) + 1)) - (-1/sqrt(hidden_layers(i) + 1))) + (-1/sqrt(hidden_layers(i) + 1));
   endfor

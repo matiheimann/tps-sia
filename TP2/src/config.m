@@ -1,5 +1,9 @@
-#Configuration file
+# Configuration file
 clear all;
+
+# Debug mode
+DEBUG_MODE = true;
+debug_on_interrupt(DEBUG_MODE);
 
 # Data set
 dataset = dlmread("terrain08.data")(2:end, :);
