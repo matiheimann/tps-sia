@@ -48,7 +48,6 @@ function w = training_batch()
   
   # Iterate until desired epsilon (mean) or max epochs
   while (redo && (max_epochs == -1 || epochs < max_epochs))
-    
     redo = false;
     
     # Calculate neurons values for each pattern with actual weights  

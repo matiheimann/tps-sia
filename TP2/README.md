@@ -41,3 +41,20 @@ octave-cli
 weights = training_batch; # or training_incremental
 neural_network(weights); # to test the trained network
 ```
+
+Break points have been placed at lines of interest, but will not trigger unless the variable `stop_now` is set to true. This can be done at runtime at any given time. It can be achieved by following these steps:
+
+1) Hit `Ctrl+C` when ready
+2) Type in the following commands, one at a time:
+```
+global stop_now
+stop_now
+stop_now = true
+dbcont # continue the execution
+```
+3) The program will automatically stop when the break point is reached. Changes can be made safely at said break points.
+4) After making the changes, type in the following commands:
+```
+stop_now = false
+dbcont # continue the execution
+```
