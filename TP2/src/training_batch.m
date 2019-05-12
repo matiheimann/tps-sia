@@ -1,4 +1,5 @@
 function w = training_batch()
+  clear all;
   config;
   validate_config();
   

@@ -1,4 +1,5 @@
 function w = training_incremental()
+  clear all;
   config;
   validate_config();
   
