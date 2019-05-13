@@ -72,17 +72,28 @@ function w = training_incremental()
     endif
     
     # Print last error and graph etas and error for each epoch
-    error
     if epochs == 1
       figure(1);
       error_plot = plot(epoch_errors, 1:length(epoch_errors));
-      figure(2);
-      etas_plot = plot(epoch_etas, 1:length(epoch_etas));
+      xlabel("Epochs");
+      ylabel("Error");
+      title("Error Evolution");
+      grid on;
+      if (adaptative_eta == true)
+        figure(2);
+        etas_plot = plot(epoch_etas, 1:length(epoch_etas));
+        xlabel("Epochs");
+        ylabel("Eta value");
+        title("Eta Evolution");
+        grid on;
+      endif
     else
       set(error_plot, 'XData', 1:length(epoch_errors));
       set(error_plot, 'YData', epoch_errors);
-      set(etas_plot, 'XData', 1:length(epoch_etas));
-      set(etas_plot, 'YData', epoch_etas);
+      if (adaptative_eta == true)
+        set(etas_plot, 'XData', 1:length(epoch_etas));
+        set(etas_plot, 'YData', epoch_etas);
+      endif
       refresh();
     endif
     
