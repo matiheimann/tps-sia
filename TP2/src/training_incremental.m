@@ -43,6 +43,8 @@ function w = training_incremental()
   epoch_errors = [];
   epoch_reduction_steps = 0;
   epoch_last_w = w;
+  epoch_best = 1;
+  epoch_best_w = w;
   redo = true;
   start_time = time();
   
@@ -63,6 +65,11 @@ function w = training_incremental()
     endif
     epoch_errors(end + 1) = error;
     epoch_etas(end + 1) = eta;
+    
+    if (length(epoch_errors) > 1 && (epoch_errors(end) - epoch_errors(epoch_best)) < 0)
+      epoch_best = epochs;
+      epoch_best_w = w;
+    endif
     
     # Print last error and graph etas and error for each epoch
     error
@@ -206,6 +213,9 @@ function w = training_incremental()
     
     epochs++;
   endwhile
+  if (adaptative_eta == false)
+    w = epoch_best_w;
+  endif
   printf("Epochs: %d\n", epochs);
   printf("Training time: %d seconds.\n", time() - start_time);
 endfunction
