@@ -26,13 +26,17 @@ derivatives = {@hyp_tan_derivative, @expn_derivative};
 # Activation functions inverses
 inverses = {@hyp_tan_inverse, @expn_inverse};
 
+# Activarion functions normalization ranges
+functions_min = {-0.93, 0.05};
+functions_max = {0.93, 0.95};
+
 # Activation function beta value
 beta = 1.0;
 
 # Normalization ranges
-normalization_ranges = [inverses{fn_index}(0.05, beta), inverses{fn_index}(0.95, beta); 
-                        inverses{fn_index}(0.05, beta), inverses{fn_index}(0.95, beta); 
-                        0.05, 0.95];
+normalization_ranges = [inverses{fn_index}(functions_min{fn_index}, beta), inverses{fn_index}(functions_max{fn_index}, beta); 
+                        inverses{fn_index}(functions_min{fn_index}, beta), inverses{fn_index}(functions_max{fn_index}, beta); 
+                        functions_min{fn_index}, functions_max{fn_index}];
 normalization_mins = min(dataset);
 normalization_maxs = max(dataset);
 
@@ -44,6 +48,9 @@ patterns = 0.1;
 
 # Optional input patterns for training
 input_patterns = [];
+
+# Generalization epsilon
+gen_epsilon = 0.05;
 
 # Max epochs
 global max_epochs = -1;

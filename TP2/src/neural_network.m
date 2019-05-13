@@ -28,7 +28,7 @@ function diff = neural_network(w)
   
   diff = abs(z - s);
   
-  generalization_capability = sum(diff < epsilon);
+  generalization_capability = sum(diff < gen_epsilon);
   printf("Generalization Capability = %d%%\n", (generalization_capability / rows(s)) * 100);
   
   limits_x = linspace(min(e(:, 1)), max(e(:, 1)));
@@ -40,10 +40,12 @@ function diff = neural_network(w)
   
   figure(1)
   surf(x, y, z_data)
+  zlims = zlim();
   title("Data Terrain")
   
   figure(2)
   surf(x, y, z_generated)
+  zlim(zlims);
   title("Generated Terrain");
   
   figure(3)
