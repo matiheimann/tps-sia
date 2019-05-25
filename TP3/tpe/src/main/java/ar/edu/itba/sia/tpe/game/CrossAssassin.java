@@ -17,10 +17,10 @@ public enum CrossAssassin implements Crossover{
 
         @Override
         public Character[] crossover(Character c1, Character c2) {
-            Character[] assasins = {new Assasin(c1), new Assasin(c2)};
-            assasins[0].equipElement(c2.getEquipment()[geneChange], geneChange);
-            assasins[1].equipElement(c1.getEquipment()[geneChange], geneChange);
-            return assasins;
+            Character[] assassins = {new Assasin(c1), new Assasin(c2)};
+            assassins[0].equipElement(c2.getEquipment()[geneChange], geneChange);
+            assassins[1].equipElement(c1.getEquipment()[geneChange], geneChange);
+            return assassins;
         }
     },
 
@@ -40,12 +40,12 @@ public enum CrossAssassin implements Crossover{
 
         @Override
         public Character[] crossover(Character c1, Character c2) {
-            Character[] assasins = {new Assasin(c1), new Assasin(c2)};
+            Character[] assassins = {new Assasin(c1), new Assasin(c2)};
             for(int i = firstPoint; i <= secondPoint; i++) {
-                assasins[0].equipElement(c2.getEquipment()[i], i);
-                assasins[1].equipElement(c1.getEquipment()[i], i);
+                assassins[0].equipElement(c2.getEquipment()[i], i);
+                assassins[1].equipElement(c1.getEquipment()[i], i);
             }
-            return assasins;
+            return assassins;
         }
 
 
@@ -66,12 +66,12 @@ public enum CrossAssassin implements Crossover{
 
         @Override
         public Character[] crossover(Character c1, Character c2) {
-            Character[] assasins = {new Assasin(c1), new Assasin(c2)};
+            Character[] assassins = {new Assasin(c1), new Assasin(c2)};
             for(int i = firstPoint; i <= firstPoint + length; i++) {
-                assasins[0].equipElement(c2.getEquipment()[i % 5], i % 5);
-                assasins[1].equipElement(c1.getEquipment()[i % 5], i % 5);
+                assassins[0].equipElement(c2.getEquipment()[i % 5], i % 5);
+                assassins[1].equipElement(c1.getEquipment()[i % 5], i % 5);
             }
-            return assasins;
+            return assassins;
         }
 
     },
@@ -90,15 +90,15 @@ public enum CrossAssassin implements Crossover{
 
         @Override
         public Character[] crossover(Character c1, Character c2) {
-            Character[] assasins = {new Assasin(c1), new Assasin(c2)};
+            Character[] assassins = {new Assasin(c1), new Assasin(c2)};
             for(int i = 0; i < 5; i++){
                 double p = r.nextDouble();
                 if(probability > p){
-                    assasins[0].equipElement(c2.getEquipment()[i], i);
-                    assasins[1].equipElement(c1.getEquipment()[i], i);
+                    assassins[0].equipElement(c2.getEquipment()[i], i);
+                    assassins[1].equipElement(c1.getEquipment()[i], i);
                 }
             }
-            return assasins;
+            return assassins;
         }
     }
 

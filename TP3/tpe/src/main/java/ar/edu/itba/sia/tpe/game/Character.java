@@ -63,27 +63,27 @@ public abstract class Character {
         double agility = 0.0;
         double expertise = 0.0;
         if(this.equipment[0] != null) {
-            strength += this.equipment[0].getStrenght();
+            strength += this.equipment[0].getStrength();
             agility += this.equipment[0].getExpertise();
             expertise += this.equipment[0].getExpertise();
         }
         if(this.equipment[1] != null) {
-            strength += equipment[1].getStrenght();
+            strength += equipment[1].getStrength();
             agility += equipment[1].getExpertise();
             expertise += equipment[1].getAgility();
         }
         if(this.equipment[2] != null){
-            strength += equipment[2].getStrenght();
+            strength += equipment[2].getStrength();
             agility += equipment[2].getAgility();
             expertise += equipment[2].getExpertise();
         }
         if(this.equipment[3] != null){
-            strength += equipment[3].getStrenght();
+            strength += equipment[3].getStrength();
             agility += equipment[3].getAgility();
             expertise += equipment[3].getExpertise();
         }
         if(this.equipment[4] != null){
-            strength += equipment[4].getStrenght();
+            strength += equipment[4].getStrength();
             agility += equipment[4].getAgility();
             expertise += equipment[4].getExpertise();
         }
