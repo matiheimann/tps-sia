@@ -2,37 +2,31 @@ package ar.edu.itba.sia.tpe.game;
 
 public class Equipment {
 
+    private int id;
     private double strength;
     private double agility;
     private double expertise;
     private double resistance;
-    private double healthPoints;
+    private double health;
 
-    public Equipment(double s, double a, double e, double r, double h){
+    public Equipment(int id, double s, double a, double e, double r, double h) {
+        this.id = id;
         this.strength = s;
         this.agility = a;
         this.expertise = e;
         this.resistance = r;
-        this.healthPoints = h;
+        this.health = h;
     }
 
-    public double getStrength() {
-        return strength;
-    }
+    public int getId() { return id; }
 
-    public double getAgility() {
-        return agility;
-    }
+    public double getStrength() { return strength; }
 
-    public double getExpertise() {
-        return expertise;
-    }
+    public double getAgility() { return agility; }
 
-    public double getResistance() {
-        return resistance;
-    }
+    public double getExpertise() { return expertise; }
 
-    public double getHealthPoints() {
-        return healthPoints;
-    }
+    public double getResistance() { return resistance; }
+
+    public double getHealth() { return health; }
 }

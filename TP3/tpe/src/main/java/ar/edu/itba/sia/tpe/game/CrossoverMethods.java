@@ -2,7 +2,7 @@ package ar.edu.itba.sia.tpe.game;
 
 import java.util.Random;
 
-public enum CrossAssassin implements Crossover{
+public enum CrossoverMethods implements Crossover {
 
     ONE_POINT_CROSS {
 
@@ -17,20 +17,19 @@ public enum CrossAssassin implements Crossover{
 
         @Override
         public Character[] crossover(Character c1, Character c2) {
-            Character[] assassins = {new Assasin(c1), new Assasin(c2)};
-            assassins[0].equipElement(c2.getEquipment()[geneChange], geneChange);
-            assassins[1].equipElement(c1.getEquipment()[geneChange], geneChange);
-            return assassins;
+            Character[] characters = {c1.clone(), c2.clone()};
+            characters[0].equipElement(c2.getEquipment()[geneChange], geneChange);
+            characters[1].equipElement(c1.getEquipment()[geneChange], geneChange);
+            return characters;
         }
     },
 
-
-    TWO_POINT_CROSS{
+    TWO_POINT_CROSS {
 
         private int firstPoint = 0;
         private int secondPoint = 1;
 
-        public void setGeneChanges(int geneChanges1, int geneChanges2){
+        public void setGeneChanges(int geneChanges1, int geneChanges2) {
             if(geneChanges1 >= geneChanges2 && geneChanges2 > 4){
                 throw new RuntimeException("Not valid gene");
             }
@@ -40,23 +39,23 @@ public enum CrossAssassin implements Crossover{
 
         @Override
         public Character[] crossover(Character c1, Character c2) {
-            Character[] assassins = {new Assasin(c1), new Assasin(c2)};
+            Character[] characters = {c1.clone(), c2.clone()};
             for(int i = firstPoint; i <= secondPoint; i++) {
-                assassins[0].equipElement(c2.getEquipment()[i], i);
-                assassins[1].equipElement(c1.getEquipment()[i], i);
+                characters[0].equipElement(c2.getEquipment()[i], i);
+                characters[1].equipElement(c1.getEquipment()[i], i);
             }
-            return assassins;
+            return characters;
         }
 
 
     },
 
-    ANULAR{
+    ANULAR {
 
         private int firstPoint = 0;
         private int length = 1;
 
-        public void setParameters(int firstPoint, int length){
+        public void setParameters(int firstPoint, int length) {
             if(firstPoint > 4 || length > 2){
                 throw new RuntimeException("Not valid parameters");
             }
@@ -66,22 +65,21 @@ public enum CrossAssassin implements Crossover{
 
         @Override
         public Character[] crossover(Character c1, Character c2) {
-            Character[] assassins = {new Assasin(c1), new Assasin(c2)};
+            Character[] characters = {c1.clone(), c2.clone()};
             for(int i = firstPoint; i <= firstPoint + length; i++) {
-                assassins[0].equipElement(c2.getEquipment()[i % 5], i % 5);
-                assassins[1].equipElement(c1.getEquipment()[i % 5], i % 5);
+                characters[0].equipElement(c2.getEquipment()[i % 5], i % 5);
+                characters[1].equipElement(c1.getEquipment()[i % 5], i % 5);
             }
-            return assassins;
+            return characters;
         }
 
     },
 
-    UNIFORM{
+    UNIFORM {
 
         private double probability = 0.5;
-        Random r = new Random();
 
-        public void setProbability(double p){
+        public void setProbability(double p) {
             if(p < 0 || p > 1) {
                 throw  new RuntimeException("Not valid parameters");
             }
@@ -90,15 +88,15 @@ public enum CrossAssassin implements Crossover{
 
         @Override
         public Character[] crossover(Character c1, Character c2) {
-            Character[] assassins = {new Assasin(c1), new Assasin(c2)};
+            Character[] characters = {c1.clone(), c2.clone()};
             for(int i = 0; i < 5; i++){
-                double p = r.nextDouble();
+                double p = Rand.randDouble();
                 if(probability > p){
-                    assassins[0].equipElement(c2.getEquipment()[i], i);
-                    assassins[1].equipElement(c1.getEquipment()[i], i);
+                    characters[0].equipElement(c2.getEquipment()[i], i);
+                    characters[1].equipElement(c1.getEquipment()[i], i);
                 }
             }
-            return assassins;
+            return characters;
         }
     }
 

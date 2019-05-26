@@ -12,7 +12,7 @@ dbstop in training_incremental at 53 if stop_now == true;
 dataset = dlmread("terrain08.data")(2:end, :);
 
 # Number of neurons for each hidden layer (array length = hidden layers count)
-hidden_layers = [12, 12];
+hidden_layers = [12 12];
 
 # Activation function index to use (1: hyperbolic tangent, 2: exponential)
 fn_index = 2;
@@ -44,7 +44,7 @@ normalization_maxs = max(dataset);
 outputs = 1;
 
 # Percentage of patterns for training
-patterns = 0.1;
+patterns = 0.5;
 
 # Optional input patterns for training
 input_patterns = [];
@@ -53,13 +53,13 @@ input_patterns = [];
 gen_epsilon = 0.05;
 
 # Max epochs
-global max_epochs = -1;
+global max_epochs = 500;
 
 # Allowed error
 global epsilon = 0.01;
 
 # Learning rate
-global eta = 0.1;
+global eta = 0.01;
 
 # Weight optimization to use (0: Default, 1: Momentum, 2: Adam, 3: Adamax, 4: Nadam)
 global weight_optimization = 2;
