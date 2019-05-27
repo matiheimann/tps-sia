@@ -44,7 +44,7 @@ public enum MutationMethods implements Mutation {
         }
     };
 
-    public void mutateWrapper(Character character, int generation){
+    public static void mutateWrapper(Character character, int generations) {
         switch (Configuration.mutationMethod){
             case GEN_UNIFORM:
             case MULTIGEN_UNIFORM:
@@ -54,23 +54,21 @@ public enum MutationMethods implements Mutation {
                 break;
             case GEN_NOT_UNIFORM:
             case MULTIGEN_NOT_UNIFORM:
-                if(probabilityMutation(generation) > Rand.randDouble()){
+                if(probabilityMutation(generations) > Rand.randDouble()){
                     Configuration.mutationMethod.mutate(character);
                 }
                 break;
         }
     }
 
-    private double probabilityMutation(int generation){
-        return 2000.0/(2500.0 + 10*generation);
+    private static double probabilityMutation(int generations){
+        return 2000.0 / (2500.0 + 10 * generations);
     }
 
-
-    public void mutateGene(Character character, int gene){
+    private static void mutateGene(Character character, int gene) {
         if(gene == 5){
             character.setHeight(Rand.randDouble(1.3, 2.0));
-        }
-        else{
+        } else {
             int rand = Rand.randInt(EquipmentData.getEquipments()[gene].size() - 1);
             Equipment e = EquipmentData.getEquipments()[gene].get(rand);
             character.equipElement(e, rand);
