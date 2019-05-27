@@ -6,7 +6,6 @@ import java.util.List;
 import ar.edu.itba.sia.tpe.game.interfaces.Finalization;
 
 public enum FinalizationMethods implements Finalization {
-
 	
 	MAX_GENERATIONS {
 
@@ -76,6 +75,7 @@ public enum FinalizationMethods implements Finalization {
     			iterationsWithoutImprovement++;
     		return false;
     	}
+
     };
 
 }

@@ -95,11 +95,11 @@ public enum CrossoverMethods implements Crossover {
     };
 
     public static Character[] crossoverWrapper(Character c1, Character c2) {
-        if (Rand.randDouble() > Configuration.crossoverP) {
+        if (Configuration.crossoverP > Rand.randDouble()) {
+            return Configuration.crossoverMethod.crossover(c1, c2);
+        } else {
             Character[] characters = {c1.clone(), c2.clone()};
             return characters;
-        } else {
-            return Configuration.crossoverMethod.crossover(c1, c2);
         }
     }
 

@@ -1,5 +1,8 @@
 package ar.edu.itba.sia.tpe.game;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 public class Character implements Comparable<Character> {
 
     private static int WEAPON = 0;
@@ -113,4 +116,19 @@ public class Character implements Comparable<Character> {
 
     public void equipBreastplate(Equipment breastplate) { this.equipment[BREASTPLATE] = breastplate; }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Character character = (Character) o;
+        return Double.compare(character.height, height) == 0 &&
+                Arrays.equals(equipment, character.equipment);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(height);
+        result = 31 * result + Arrays.hashCode(equipment);
+        return result;
+    }
 }

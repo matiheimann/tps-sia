@@ -6,11 +6,9 @@ import java.util.List;
 
 public class GeneticAlgorithm {
 
-    private EquipmentData data;
-
     public GeneticAlgorithm() {
         Configuration.parseConfiguration();
-        data = new EquipmentData();
+        EquipmentData.parseData();
     }
 
     public Character run() {
@@ -28,20 +26,20 @@ public class GeneticAlgorithm {
 
     private List<Character> initialSampling() {
         List<Character> population = new ArrayList<>();
-        int weaponsCount = EquipmentData.getEquipments()[0].size();
-        int helmetsCount = EquipmentData.getEquipments()[1].size();
-        int bootsCount = EquipmentData.getEquipments()[2].size();
-        int glovesCount = EquipmentData.getEquipments()[3].size();
-        int breastplatesCount = EquipmentData.getEquipments()[4].size();
+        int weaponsCount = EquipmentData.equipments[0].size();
+        int helmetsCount = EquipmentData.equipments[1].size();
+        int bootsCount = EquipmentData.equipments[2].size();
+        int glovesCount = EquipmentData.equipments[3].size();
+        int breastplatesCount = EquipmentData.equipments[4].size();
 
         for (int i = 0; i < Configuration.populationSize; i++) {
             double height = Rand.randDouble(1.3, 2.0);
             Character character = new Character(height);
-            character.equipWeapon(EquipmentData.getEquipments()[0].get(Rand.randInt(0, weaponsCount)));
-            character.equipBoots(EquipmentData.getEquipments()[1].get(Rand.randInt(0, bootsCount)));
-            character.equipHelmet(EquipmentData.getEquipments()[2].get(Rand.randInt(0, helmetsCount)));
-            character.equipGloves(EquipmentData.getEquipments()[3].get(Rand.randInt(0, glovesCount)));
-            character.equipBreastplate(EquipmentData.getEquipments()[4].get(Rand.randInt(0, breastplatesCount)));
+            character.equipWeapon(EquipmentData.equipments[0].get(Rand.randInt(0, weaponsCount)));
+            character.equipBoots(EquipmentData.equipments[1].get(Rand.randInt(0, bootsCount)));
+            character.equipHelmet(EquipmentData.equipments[2].get(Rand.randInt(0, helmetsCount)));
+            character.equipGloves(EquipmentData.equipments[3].get(Rand.randInt(0, glovesCount)));
+            character.equipBreastplate(EquipmentData.equipments[4].get(Rand.randInt(0, breastplatesCount)));
             population.add(character);
         }
         return population;

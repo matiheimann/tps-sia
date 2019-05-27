@@ -5,6 +5,6 @@ import ar.edu.itba.sia.tpe.game.Character;
 
 public interface Finalization {
 	
-	public boolean isFinished(List<Character> population, int generations);
+	boolean isFinished(List<Character> population, int generations);
 
 }

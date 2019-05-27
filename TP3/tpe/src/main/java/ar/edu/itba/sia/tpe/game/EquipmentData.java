@@ -7,18 +7,14 @@ import java.util.Scanner;
 
 public class EquipmentData {
 
-    public static Map<Integer, Equipment> equipments[] = new Map[5];
+    static Map<Integer, Equipment> equipments[] = new Map[5];
 
-    public EquipmentData() {
+    public static void parseData() {
         equipments[0] = parseEquipmentFile("testdata/armas.tsv");
         equipments[1] = parseEquipmentFile("testdata/cascos.tsv");
         equipments[2] = parseEquipmentFile("testdata/botas.tsv");
         equipments[3] = parseEquipmentFile("testdata/guantes.tsv");
         equipments[4] = parseEquipmentFile("testdata/pecheras.tsv");
-    }
-
-    public static Map<Integer, Equipment>[] getEquipments(){
-        return equipments;
     }
 
     private static Map<Integer, Equipment> parseEquipmentFile(String filename) {

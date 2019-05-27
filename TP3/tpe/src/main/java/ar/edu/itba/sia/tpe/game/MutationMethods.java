@@ -69,8 +69,8 @@ public enum MutationMethods implements Mutation {
         if(gene == 5){
             character.setHeight(Rand.randDouble(1.3, 2.0));
         } else {
-            int rand = Rand.randInt(EquipmentData.getEquipments()[gene].size() - 1);
-            Equipment e = EquipmentData.getEquipments()[gene].get(rand);
+            int rand = Rand.randInt(EquipmentData.equipments[gene].size() - 1);
+            Equipment e = EquipmentData.equipments[gene].get(rand);
             character.equipElement(e, rand);
         }
     }
