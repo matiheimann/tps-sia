@@ -17,7 +17,7 @@ public class GeneticAlgorithm {
         int generations = 0;
         List<Character> population = initialSampling();
         //WIP
-        while (!isFinished(population, generations)) {
+        while (!Configuration.finalizationMethod.isFinished(population, generations)) {
             //Replacement
             population = Configuration.replacementMethod.replace(population, generations);
 
@@ -45,10 +45,6 @@ public class GeneticAlgorithm {
             population.add(character);
         }
         return population;
-    }
-
-    private boolean isFinished(List<Character> population, int generations) {
-        return false;
     }
 
 
