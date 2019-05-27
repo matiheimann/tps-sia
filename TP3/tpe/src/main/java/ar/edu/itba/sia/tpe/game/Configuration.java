@@ -26,6 +26,9 @@ public class Configuration {
     static double crossoverP;
     static CrossoverMethods crossoverMethod;
 
+    static double mutationP;
+    static MutationMethods mutationMethod;
+
     static ReplacementMethods replacementMethod;
     static SelectionMethods firstReplacementMethod;
     static SelectionMethods secondReplacementMethod;
@@ -52,6 +55,8 @@ public class Configuration {
             tournamentsM = Integer.parseInt(p.getProperty("TOURNAMENTS_M", "2"));
             crossoverP = Double.parseDouble(p.getProperty("CROSSOVER_PROBABILITY", "0.8"));
             crossoverMethod = CrossoverMethods.valueOf(p.getProperty("CROSSOVER_METHOD", "ONE_POINT_CROSS"));
+            mutationP = Double.valueOf(p.getProperty("MUTATION_PROBABILITY", "0.5"));
+            mutationMethod = MutationMethods.valueOf(p.getProperty("MUTATION_METHOD", "GEN_UNIFORM"));
             replacementMethod = ReplacementMethods.valueOf(p.getProperty("REPLACEMENT_METHOD", "METHOD_1"));
             firstReplacementMethod = SelectionMethods.valueOf(p.getProperty("FIRST_REPLACEMENT_METHOD", "ELITE"));
             secondReplacementMethod = SelectionMethods.valueOf(p.getProperty("SECOND_REPLACEMENT_METHOD", "ELITE"));

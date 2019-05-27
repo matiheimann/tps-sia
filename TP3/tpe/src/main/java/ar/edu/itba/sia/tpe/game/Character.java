@@ -35,6 +35,10 @@ public class Character implements Comparable<Character> {
         return Configuration.attackMultiplier * getAttack() + Configuration.defenseMultiplier * getDefense();
     }
 
+    public double getHeight(){
+        return this.height;
+    }
+
     public double getAttack() {
         return (getAgility() + getExpertise()) * getStrength() * getATM();
     }
@@ -94,6 +98,8 @@ public class Character implements Comparable<Character> {
     public Equipment[] getEquipment() {
         return this.equipment;
     }
+
+    public void setHeight(double height) {this.height = height;}
 
     public void equipElement(Equipment e, int idx) { this.equipment[idx] = e; }
 

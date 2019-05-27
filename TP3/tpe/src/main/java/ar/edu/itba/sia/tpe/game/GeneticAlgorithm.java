@@ -29,20 +29,20 @@ public class GeneticAlgorithm {
 
     private List<Character> initialSampling() {
         List<Character> population = new ArrayList<>();
-        int weaponsCount = data.weapons.size();
-        int bootsCount = data.boots.size();
-        int helmetsCount = data.helmets.size();
-        int glovesCount = data.gloves.size();
-        int breastplatesCount = data.breastplates.size();
+        int weaponsCount = EquipmentData.getEquipments()[0].size();
+        int helmetsCount = EquipmentData.getEquipments()[1].size();
+        int bootsCount = EquipmentData.getEquipments()[2].size();
+        int glovesCount = EquipmentData.getEquipments()[3].size();
+        int breastplatesCount = EquipmentData.getEquipments()[4].size();
 
         for (int i = 0; i < Configuration.populationSize; i++) {
             double height = Rand.randDouble(1.3, 2.0);
             Character character = new Character(height);
-            character.equipWeapon(data.weapons.get(Rand.randInt(0, weaponsCount)));
-            character.equipBoots(data.boots.get(Rand.randInt(0, bootsCount)));
-            character.equipHelmet(data.helmets.get(Rand.randInt(0, helmetsCount)));
-            character.equipGloves(data.gloves.get(Rand.randInt(0, glovesCount)));
-            character.equipBreastplate(data.breastplates.get(Rand.randInt(0, breastplatesCount)));
+            character.equipWeapon(EquipmentData.getEquipments()[0].get(Rand.randInt(0, weaponsCount)));
+            character.equipBoots(EquipmentData.getEquipments()[1].get(Rand.randInt(0, bootsCount)));
+            character.equipHelmet(EquipmentData.getEquipments()[2].get(Rand.randInt(0, helmetsCount)));
+            character.equipGloves(EquipmentData.getEquipments()[3].get(Rand.randInt(0, glovesCount)));
+            character.equipBreastplate(EquipmentData.getEquipments()[4].get(Rand.randInt(0, breastplatesCount)));
             population.add(character);
         }
         return population;
