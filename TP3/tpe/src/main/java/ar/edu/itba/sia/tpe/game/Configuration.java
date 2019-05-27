@@ -36,6 +36,7 @@ public class Configuration {
     static double optimalFitness;
     static double fitnessEpsilon;
     static double populationUnchangedPercentage;
+    static int maxIterationsWithoutImprovement;
 
     public static void parseConfiguration() {
         Properties p = new Properties();
@@ -66,6 +67,7 @@ public class Configuration {
             optimalFitness = Double.parseDouble(p.getProperty("OPTIMAL_FITNESS", "2.5"));
             fitnessEpsilon = Double.parseDouble(p.getProperty("FITNESS_EPSILON", "0.05"));
             populationUnchangedPercentage = Double.parseDouble(p.getProperty("POPULATION_UNCHANGED_PERCENTAGE", "0.9"));
+            maxIterationsWithoutImprovement = Integer.parseInt(p.getProperty("MAX_ITERATIONS_WITHOUT_IMPROVEMENT", "5"));
             
         } catch (Exception e) {
             e.printStackTrace();
