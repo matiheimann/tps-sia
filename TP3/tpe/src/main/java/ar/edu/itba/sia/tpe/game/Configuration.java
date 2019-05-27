@@ -33,8 +33,7 @@ public class Configuration {
 
     public static void parseConfiguration() {
         Properties p = new Properties();
-        try {
-            InputStream i = new FileInputStream("config.txt");
+        try(InputStream i = new FileInputStream("config.txt")) {
             p.load(i);
 
             attackMultiplier = Double.parseDouble(p.getProperty("ATTACK_MULTIPLIER", "0.7"));
