@@ -1,6 +1,7 @@
 package ar.edu.itba.sia.tpe.game;
 
-import java.util.Random;
+import ar.edu.itba.sia.tpe.game.interfaces.Crossover;
+import sun.security.krb5.Config;
 
 public enum CrossoverMethods implements Crossover {
 
@@ -97,6 +98,15 @@ public enum CrossoverMethods implements Crossover {
                 }
             }
             return characters;
+        }
+    };
+
+    public static Character[] crossoverWrapper(Character c1, Character c2) {
+        if (Rand.randDouble() > Configuration.crossoverP) {
+            Character[] characters = {c1.clone(), c2.clone()};
+            return characters;
+        } else {
+            return Configuration.crossoverMethod.crossover(c1, c2);
         }
     }
 

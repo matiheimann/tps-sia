@@ -1,5 +1,7 @@
 package ar.edu.itba.sia.tpe.game;
 
+import ar.edu.itba.sia.tpe.game.interfaces.Selection;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -9,8 +11,8 @@ public enum SelectionMethods implements Selection {
     ELITE {
 
         @Override
-        public List<Character> select(List<Character> sample, int size, int generations) {
-            List<Character> aux = new ArrayList<>(sample);
+        public List<Character> select(List<Character> population, int size, int generations) {
+            List<Character> aux = new ArrayList<>(population);
             Collections.sort(aux, Collections.reverseOrder());
             return aux.subList(0, size);
         }
@@ -20,14 +22,14 @@ public enum SelectionMethods implements Selection {
     ROULETTE {
 
         @Override
-        public List<Character> select(List<Character> sample, int size, int generations) {
+        public List<Character> select(List<Character> population, int size, int generations) {
             double[] randomNumbers = new double[size];
 
             for (int i = 0; i < size; i++) {
                 randomNumbers[i] = Rand.randDouble();
             }
 
-            return cumulativeFitnessSelection(sample, randomNumbers);
+            return cumulativeFitnessSelection(population, randomNumbers);
         }
 
     },
@@ -35,7 +37,7 @@ public enum SelectionMethods implements Selection {
     UNIVERSAL {
 
         @Override
-        public List<Character> select(List<Character> sample, int size, int generations) {
+        public List<Character> select(List<Character> population, int size, int generations) {
             double[] randomNumbers = new double[size];
 
             double randomNumber = Rand.randDouble();
@@ -43,7 +45,7 @@ public enum SelectionMethods implements Selection {
                 randomNumbers[i] = (randomNumber + i) / size;
             }
 
-            return cumulativeFitnessSelection(sample, randomNumbers);
+            return cumulativeFitnessSelection(population, randomNumbers);
         }
 
     },
@@ -51,7 +53,7 @@ public enum SelectionMethods implements Selection {
     BOLTZMANN_ROULETTE {
 
         @Override
-        public List<Character> select(List<Character> sample, int size, int generations) {
+        public List<Character> select(List<Character> population, int size, int generations) {
             double[] randomNumbers = new double[size];
 
             for (int i = 0; i < size; i++) {
@@ -59,7 +61,7 @@ public enum SelectionMethods implements Selection {
             }
 
             double temperature = 100.0 / (generations + 1);
-            return boltzmannSelection(sample, randomNumbers, temperature);
+            return boltzmannSelection(population, randomNumbers, temperature);
         }
 
     },
@@ -67,12 +69,12 @@ public enum SelectionMethods implements Selection {
     DETERMINISTIC_TOURNAMENTS {
 
         @Override
-        public List<Character> select(List<Character> sample, int size, int generations) {
+        public List<Character> select(List<Character> population, int size, int generations) {
             List<Character> selection = new ArrayList<>();
             for (int i = 0; i < size; i++) {
                 Character winner = null;
                 for (int j = 0; j < Configuration.tournamentsM; j++) {
-                    Character character = sample.get(Rand.randInt(sample.size()));
+                    Character character = population.get(Rand.randInt(population.size()));
                     if (winner == null || character.getFitness() > winner.getFitness()) {
                         winner = character;
                     }
@@ -87,11 +89,11 @@ public enum SelectionMethods implements Selection {
     PROBABILISTIC_TOURNAMENTS {
 
         @Override
-        public List<Character> select(List<Character> sample, int size, int generations) {
+        public List<Character> select(List<Character> population, int size, int generations) {
             List<Character> selection = new ArrayList<>();
             for (int i = 0; i < size; i++) {
-                Character character1 = sample.get(Rand.randInt(sample.size()));
-                Character character2 = sample.get(Rand.randInt(sample.size()));
+                Character character1 = population.get(Rand.randInt(population.size()));
+                Character character2 = population.get(Rand.randInt(population.size()));
                 boolean bestFitness = Rand.randDouble() < 0.75;
                 if (bestFitness) {
                     if (character1.getFitness() > character2.getFitness()) {
@@ -115,72 +117,90 @@ public enum SelectionMethods implements Selection {
     RANKING {
 
         @Override
-        public List<Character> select(List<Character> sample, int size, int generations) {
+        public List<Character> select(List<Character> population, int size, int generations) {
             double[] randomNumbers = new double[size];
 
             for (int i = 0; i < size; i++) {
                 randomNumbers[i] = Rand.randDouble();
             }
 
-            return rankingSelection(sample, randomNumbers);
+            return rankingSelection(population, randomNumbers);
         }
 
     };
 
-    private static List<Character> cumulativeFitnessSelection(List<Character> sample, double[] randomNumbers) {
-        double[] cumulativeFitness = new double[sample.size()];
-        for (int i = 0; i < sample.size(); i++) {
-            if (i == 0) {
-                cumulativeFitness[i] = sample.get(i).getFitness();
-            } else {
-                cumulativeFitness[i] = cumulativeFitness[i - 1] + sample.get(i).getFitness();
-            }
-        }
-        for (int i = 0; i < sample.size(); i++) {
-            cumulativeFitness[i] /= cumulativeFitness[sample.size() - 1];
-        }
-        return randomSelection(sample, cumulativeFitness, randomNumbers);
+    public static List<Character> selectWrapperA(List<Character> population, int size, int generations) {
+        List<Character> selection = new ArrayList<>();
+        int size1 = (int)Math.round(size * Configuration.firstSelectionMethodP);
+        int size2 = size - size1;
+        selection.addAll(Configuration.firstSelectionMethod.select(population, size1, generations));
+        selection.addAll(Configuration.secondSelectionMethod.select(population, size2, generations));
+        return selection;
     }
 
-    private static List<Character> boltzmannSelection(List<Character> sample, double[] randomNumbers, double temperature) {
-        double average = averageBoltzmannValue(sample, temperature);
-        double[] cumulativeProbabilities = new double[sample.size()];
-        for (int i = 0; i < sample.size(); i++) {
-            if (i == 0) {
-                cumulativeProbabilities[i] = Math.exp(sample.get(i).getFitness() / temperature) / average;
-            } else {
-                cumulativeProbabilities[i] = cumulativeProbabilities[i - 1] + Math.exp(sample.get(i).getFitness() / temperature) / average;
-            }
-        }
-        for (int i = 0; i < sample.size(); i++) {
-            cumulativeProbabilities[i] /= cumulativeProbabilities[sample.size() - 1];
-        }
-        return randomSelection(sample, cumulativeProbabilities, randomNumbers);
+    public static List<Character> selectWrapperB(List<Character> population, int size, int generations) {
+        List<Character> selection = new ArrayList<>();
+        int size1 = (int)Math.round(size * Configuration.firstReplacementMethodP);
+        int size2 = size - size1;
+        selection.addAll(Configuration.firstReplacementMethod.select(population, size1, generations));
+        selection.addAll(Configuration.secondReplacementMethod.select(population, size2, generations));
+        return selection;
     }
 
-    private static List<Character> rankingSelection(List<Character> sample, double[] randomNumbers) {
-        double[] cumulativeProbabilities = new double[sample.size()];
-        List<Character> aux = new ArrayList<>(sample);
+    private static List<Character> cumulativeFitnessSelection(List<Character> population, double[] randomNumbers) {
+        double[] cumulativeFitness = new double[population.size()];
+        for (int i = 0; i < population.size(); i++) {
+            if (i == 0) {
+                cumulativeFitness[i] = population.get(i).getFitness();
+            } else {
+                cumulativeFitness[i] = cumulativeFitness[i - 1] + population.get(i).getFitness();
+            }
+        }
+        for (int i = 0; i < population.size(); i++) {
+            cumulativeFitness[i] /= cumulativeFitness[population.size() - 1];
+        }
+        return randomSelection(population, cumulativeFitness, randomNumbers);
+    }
+
+    private static List<Character> boltzmannSelection(List<Character> population, double[] randomNumbers, double temperature) {
+        double average = averageBoltzmannValue(population, temperature);
+        double[] cumulativeProbabilities = new double[population.size()];
+        for (int i = 0; i < population.size(); i++) {
+            if (i == 0) {
+                cumulativeProbabilities[i] = Math.exp(population.get(i).getFitness() / temperature) / average;
+            } else {
+                cumulativeProbabilities[i] = cumulativeProbabilities[i - 1] + Math.exp(population.get(i).getFitness() / temperature) / average;
+            }
+        }
+        for (int i = 0; i < population.size(); i++) {
+            cumulativeProbabilities[i] /= cumulativeProbabilities[population.size() - 1];
+        }
+        return randomSelection(population, cumulativeProbabilities, randomNumbers);
+    }
+
+    private static List<Character> rankingSelection(List<Character> population, double[] randomNumbers) {
+        double[] cumulativeProbabilities = new double[population.size()];
+        List<Character> aux = new ArrayList<>(population);
         Collections.sort(aux);
-        for (int i = 0; i < sample.size(); i++) {
+        for (int i = 0; i < population.size(); i++) {
             if (i == 0) {
                 cumulativeProbabilities[i] = 1.0;
             } else {
                 cumulativeProbabilities[i] = cumulativeProbabilities[i - 1] + i + 1.0;
             }
         }
-        for (int i = 0; i < sample.size(); i++) {
-            cumulativeProbabilities[i] /= cumulativeProbabilities[sample.size() - 1];
+        for (int i = 0; i < population.size(); i++) {
+            cumulativeProbabilities[i] /= cumulativeProbabilities[population.size() - 1];
         }
         return randomSelection(aux, cumulativeProbabilities, randomNumbers);
     }
 
-    private static List<Character> randomSelection(List<Character> sample, double[] cumulativeProbabilities, double[] randomNumbers) {
+    private static List<Character> randomSelection(List<Character> population, double[] cumulativeProbabilities, double[] randomNumbers) {
         List<Character> selection = new ArrayList<>();
         for(int i = 0; i < randomNumbers.length; i++) {
-            for (int j = 0; j < sample.size(); j++) {
+            for (int j = 0; j < population.size(); j++) {
                 if (cumulativeProbabilities[j] > randomNumbers[i]) {
-                    selection.add(sample.get(j));
+                    selection.add(population.get(j));
                     break;
                 }
             }
@@ -188,12 +208,12 @@ public enum SelectionMethods implements Selection {
         return selection;
     }
 
-    private static double averageBoltzmannValue(List<Character> sample, double temperature) {
+    private static double averageBoltzmannValue(List<Character> population, double temperature) {
         double sum = 0.0;
-        for (Character c : sample) {
+        for (Character c : population) {
             sum += Math.exp(c.getFitness() / temperature);
         }
-        return sum / sample.size();
+        return sum / population.size();
     }
 
 }

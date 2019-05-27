@@ -15,9 +15,21 @@ public class Configuration {
     static double resistanceMultiplier;
     static double healthMultiplier;
 
-    static int sampleSize;
+    static int populationSize;
 
+    static int selectionSize;
+    static SelectionMethods firstSelectionMethod;
+    static SelectionMethods secondSelectionMethod;
+    static double firstSelectionMethodP;
     static int tournamentsM;
+
+    static double crossoverP;
+    static CrossoverMethods crossoverMethod;
+
+    static ReplacementMethods replacementMethod;
+    static SelectionMethods firstReplacementMethod;
+    static SelectionMethods secondReplacementMethod;
+    static double firstReplacementMethodP;
 
     public static void parseConfiguration() {
         Properties p = new Properties();
@@ -32,8 +44,18 @@ public class Configuration {
             expertiseMultiplier = Double.parseDouble(p.getProperty("EXPERTISE_MULTIPLIER", "1.1"));
             resistanceMultiplier = Double.parseDouble(p.getProperty("RESISTANCE_MULTIPLIER", "1.0"));
             healthMultiplier = Double.parseDouble(p.getProperty("HEALTH_MULTIPLIER", "0.8"));
-            sampleSize = Integer.parseInt(p.getProperty("SAMPLE_SIZE", "10"));
+            populationSize = Integer.parseInt(p.getProperty("POPULATION_SIZE", "10"));
+            selectionSize = Integer.parseInt(p.getProperty("SELECTION_SIZE", "5"));
+            firstSelectionMethod = SelectionMethods.valueOf(p.getProperty("FIRST_SELECTION_METHOD", "ELITE"));
+            secondSelectionMethod = SelectionMethods.valueOf(p.getProperty("SECOND_SELECTION_METHOD", "ELITE"));
+            firstSelectionMethodP = Double.parseDouble(p.getProperty("FIRST_SELECTION_METHOD_PERCENTAGE", "0.8"));
             tournamentsM = Integer.parseInt(p.getProperty("TOURNAMENTS_M", "2"));
+            crossoverP = Double.parseDouble(p.getProperty("CROSSOVER_PROBABILITY", "0.8"));
+            crossoverMethod = CrossoverMethods.valueOf(p.getProperty("CROSSOVER_METHOD", "ONE_POINT_CROSS"));
+            replacementMethod = ReplacementMethods.valueOf(p.getProperty("REPLACEMENT_METHOD", "METHOD_1"));
+            firstReplacementMethod = SelectionMethods.valueOf(p.getProperty("FIRST_REPLACEMENT_METHOD", "ELITE"));
+            secondReplacementMethod = SelectionMethods.valueOf(p.getProperty("SECOND_REPLACEMENT_METHOD", "ELITE"));
+            firstReplacementMethodP = Double.parseDouble(p.getProperty("FIRST_REPLACEMENT_METHOD_PERCENTAGE", "0.8"));
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
