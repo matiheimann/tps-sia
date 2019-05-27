@@ -23,8 +23,7 @@ public class EquipmentData {
 
     private static Map<Integer, Equipment> parseEquipmentFile(String filename) {
         Map<Integer, Equipment> equipment = new HashMap<>();
-        try {
-            Scanner line = new Scanner(new File(filename));
+        try(Scanner line = new Scanner(new File(filename))) {
             line.nextLine();
             while (line.hasNext()) {
                 Equipment e = new Equipment(line.nextInt(), line.nextDouble(), line.nextDouble(), line.nextDouble(), line.nextDouble(), line.nextDouble());

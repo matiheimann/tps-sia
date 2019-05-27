@@ -1,10 +1,10 @@
 package ar.edu.itba.sia.tpe.game;
 
-import ar.edu.itba.sia.tpe.game.interfaces.Replacement;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import ar.edu.itba.sia.tpe.game.interfaces.Replacement;
 
 public enum ReplacementMethods implements Replacement {
 

@@ -1,7 +1,6 @@
 package ar.edu.itba.sia.tpe.game;
 
 import ar.edu.itba.sia.tpe.game.interfaces.Crossover;
-import sun.security.krb5.Config;
 
 public enum CrossoverMethods implements Crossover {
 
