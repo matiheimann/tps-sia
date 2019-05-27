@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface Selection {
 
-    List<Character> select(List<Character> sample, int size);
+    List<Character> select(List<Character> sample, int size, int generations);
 
 }

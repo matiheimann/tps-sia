@@ -6,22 +6,20 @@ import java.util.Properties;
 
 public class Configuration {
 
-    double attackMultiplier;
-    double defenseMultiplier;
+    static double attackMultiplier;
+    static double defenseMultiplier;
 
-    double strengthMultiplier;
-    double agilityMultiplier;
-    double expertiseMultiplier;
-    double resistanceMultiplier;
-    double healthMultiplier;
+    static double strengthMultiplier;
+    static double agilityMultiplier;
+    static double expertiseMultiplier;
+    static double resistanceMultiplier;
+    static double healthMultiplier;
 
-    int sampleSize;
+    static int sampleSize;
 
-    public Configuration() {
-        parseConfiguration();
-    }
+    static int tournamentsM;
 
-    private void parseConfiguration() {
+    public static void parseConfiguration() {
         Properties p = new Properties();
         try {
             InputStream i = new FileInputStream("config.txt");
@@ -35,6 +33,7 @@ public class Configuration {
             resistanceMultiplier = Double.parseDouble(p.getProperty("RESISTANCE_MULTIPLIER", "1.0"));
             healthMultiplier = Double.parseDouble(p.getProperty("HEALTH_MULTIPLIER", "0.8"));
             sampleSize = Integer.parseInt(p.getProperty("SAMPLE_SIZE", "10"));
+            tournamentsM = Integer.parseInt(p.getProperty("TOURNAMENTS_M", "2"));
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);

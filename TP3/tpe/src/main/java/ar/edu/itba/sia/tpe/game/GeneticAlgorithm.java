@@ -1,21 +1,22 @@
 package ar.edu.itba.sia.tpe.game;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GeneticAlgorithm {
 
     private EquipmentData data;
-    private Configuration config;
-
     private List<Character> sample;
 
     public GeneticAlgorithm() {
+        Configuration.parseConfiguration();
         data = new EquipmentData();
-        config = new Configuration();
+        sample = new ArrayList<>();
     }
 
     public Character run() {
         initialSampling();
+        int generations = 0;
         //WIP
         return null;
     }
@@ -27,11 +28,9 @@ public class GeneticAlgorithm {
         int glovesCount = data.gloves.size();
         int breastplatesCount = data.breastplates.size();
 
-        for (int i = 0; i < config.sampleSize; i++) {
+        for (int i = 0; i < Configuration.sampleSize; i++) {
             double height = Rand.randDouble(1.3, 2.0);
-            Character character = new Character(height, config.attackMultiplier, config.defenseMultiplier,
-                    config.strengthMultiplier, config.agilityMultiplier, config.expertiseMultiplier,
-                    config.resistanceMultiplier, config.healthMultiplier);
+            Character character = new Character(height);
             character.equipWeapon(data.weapons.get(Rand.randInt(0, weaponsCount)));
             character.equipBoots(data.boots.get(Rand.randInt(0, bootsCount)));
             character.equipHelmet(data.helmets.get(Rand.randInt(0, helmetsCount)));

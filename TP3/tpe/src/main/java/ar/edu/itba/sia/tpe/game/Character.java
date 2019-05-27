@@ -1,8 +1,5 @@
 package ar.edu.itba.sia.tpe.game;
 
-import java.util.Arrays;
-import java.util.Objects;
-
 public class Character implements Comparable<Character> {
 
     private static int WEAPON = 0;
@@ -15,31 +12,13 @@ public class Character implements Comparable<Character> {
     private double height;
     private Equipment[] equipment = new Equipment[EQUIPMENT_SIZE];
 
-    private double attackMultiplier;
-    private double defenseMultiplier;
-    private double strengthMultiplier;
-    private double agilityMultiplier;
-    private double expertiseMultiplier;
-    private double resistanceMultiplier;
-    private double healthMultiplier;
-
-    public Character(double height, double attackMultiplier, double defenseMultiplier, double strengthMultiplier,
-                     double agilityMultiplier, double expertiseMultiplier, double resistanceMultiplier,
-                     double healthMultiplier) {
+    public Character(double height) {
         this.height = height;
-        this.attackMultiplier = attackMultiplier;
-        this.defenseMultiplier = defenseMultiplier;
-        this.strengthMultiplier = strengthMultiplier;
-        this.agilityMultiplier = agilityMultiplier;
-        this.expertiseMultiplier = expertiseMultiplier;
-        this.resistanceMultiplier = resistanceMultiplier;
-        this.healthMultiplier = healthMultiplier;
     }
 
     @Override
     public Character clone() {
-        Character c = new Character(height, attackMultiplier, defenseMultiplier, strengthMultiplier,
-                agilityMultiplier, expertiseMultiplier, resistanceMultiplier, healthMultiplier);
+        Character c = new Character(height);
         int i = 0;
         for (Equipment e : c.equipment) {
             equipElement(e, i++);
@@ -53,7 +32,7 @@ public class Character implements Comparable<Character> {
     }
 
     public double getFitness() {
-        return attackMultiplier * getAttack() + defenseMultiplier * getDefense();
+        return Configuration.attackMultiplier * getAttack() + Configuration.defenseMultiplier * getDefense();
     }
 
     public double getAttack() {
@@ -69,7 +48,7 @@ public class Character implements Comparable<Character> {
         for (Equipment e : equipment) {
             strength += e.getStrength();
         }
-        return 100 * Math.tanh(0.01 * strength * strengthMultiplier);
+        return 100 * Math.tanh(0.01 * strength * Configuration.strengthMultiplier);
     }
 
     public double getAgility() {
@@ -77,7 +56,7 @@ public class Character implements Comparable<Character> {
         for (Equipment e : equipment) {
             agility += e.getAgility();
         }
-        return Math.tanh(0.01 * agility * agilityMultiplier);
+        return Math.tanh(0.01 * agility * Configuration.agilityMultiplier);
     }
 
     public double getExpertise() {
@@ -85,7 +64,7 @@ public class Character implements Comparable<Character> {
         for (Equipment e : equipment) {
             expertise += e.getExpertise();
         }
-        return 0.6 * Math.tanh(0.01 * expertise * expertiseMultiplier);
+        return 0.6 * Math.tanh(0.01 * expertise * Configuration.expertiseMultiplier);
     }
 
     public double getResistance() {
@@ -93,7 +72,7 @@ public class Character implements Comparable<Character> {
         for (Equipment e : equipment) {
             resistance += e.getResistance();
         }
-        return Math.tanh(0.01 * resistance * resistanceMultiplier);
+        return Math.tanh(0.01 * resistance * Configuration.resistanceMultiplier);
     }
 
     public double getHealth() {
@@ -101,7 +80,7 @@ public class Character implements Comparable<Character> {
         for (Equipment e : equipment) {
             health += e.getHealth();
         }
-        return 100 * Math.tanh(0.01 * health * healthMultiplier);
+        return 100 * Math.tanh(0.01 * health * Configuration.healthMultiplier);
     }
 
     public double getATM() {
