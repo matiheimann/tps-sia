@@ -33,11 +33,16 @@ public class Configuration {
     static SelectionMethods firstReplacementMethod;
     static SelectionMethods secondReplacementMethod;
     static double firstReplacementMethodP;
+    
+    static FinalizationMethods finalizationMethod;
+    static int maxGenerations;
+    static double optimalFitness;
+    static double fitnessEpsilon;
+    static double populationUnchangedPercentage;
 
     public static void parseConfiguration() {
         Properties p = new Properties();
-        try {
-            InputStream i = new FileInputStream("config.txt");
+        try(InputStream i = new FileInputStream("config.txt")) {
             p.load(i);
 
             attackMultiplier = Double.parseDouble(p.getProperty("ATTACK_MULTIPLIER", "0.7"));
@@ -61,6 +66,12 @@ public class Configuration {
             firstReplacementMethod = SelectionMethods.valueOf(p.getProperty("FIRST_REPLACEMENT_METHOD", "ELITE"));
             secondReplacementMethod = SelectionMethods.valueOf(p.getProperty("SECOND_REPLACEMENT_METHOD", "ELITE"));
             firstReplacementMethodP = Double.parseDouble(p.getProperty("FIRST_REPLACEMENT_METHOD_PERCENTAGE", "0.8"));
+            finalizationMethod = FinalizationMethods.valueOf(p.getProperty("FINALIZATION_METHOD", "MAX_GENERATIONS"));
+            maxGenerations = Integer.parseInt(p.getProperty("MAX_GENERATIONS", "100"));
+            optimalFitness = Double.parseDouble(p.getProperty("OPTIMAL_FITNESS", "2.5"));
+            fitnessEpsilon = Double.parseDouble(p.getProperty("FITNESS_EPSILON", "0.05"));
+            populationUnchangedPercentage = Double.parseDouble(p.getProperty("POPULATION_UNCHANGED_PERCENTAGE", "0.9"));
+            
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
