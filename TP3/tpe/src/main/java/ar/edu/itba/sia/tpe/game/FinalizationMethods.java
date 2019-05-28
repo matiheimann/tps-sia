@@ -11,7 +11,7 @@ public enum FinalizationMethods implements Finalization {
 
         @Override
         public boolean isFinished(List<Character> population, int generations) {
-        	return generations > Configuration.maxGenerations;
+        	return generations >= Configuration.maxGenerations;
         }
 
     },

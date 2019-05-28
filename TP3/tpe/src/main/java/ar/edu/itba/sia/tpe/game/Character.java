@@ -6,25 +6,26 @@ import java.util.Objects;
 public class Character implements Comparable<Character> {
 
     private static int WEAPON = 0;
-    private static int HELMET = 1;
-    private static int BOOTS = 2;
+    private static int BOOTS = 1;
+    private static int HELMET = 2;
     private static int GLOVES = 3;
     private static int BREASTPLATE = 4;
     private static int EQUIPMENT_SIZE = 5;
 
     private double height;
-    private Equipment[] equipment = new Equipment[EQUIPMENT_SIZE];
+    private Equipment[] equipment;
 
     public Character(double height) {
         this.height = height;
+        this.equipment = new Equipment[EQUIPMENT_SIZE];
     }
 
     @Override
     public Character clone() {
         Character c = new Character(height);
         int i = 0;
-        for (Equipment e : c.equipment) {
-            equipElement(e, i++);
+        for (Equipment e : equipment) {
+            c.equipElement(e, i++);
         }
         return c;
     }
@@ -108,9 +109,9 @@ public class Character implements Comparable<Character> {
 
     public void equipWeapon(Equipment weapon) { this.equipment[WEAPON] = weapon; }
 
-    public void equipHelmet(Equipment helmet) {  this.equipment[HELMET] = helmet; }
-
     public void equipBoots(Equipment boots) { this.equipment[BOOTS] = boots; }
+
+    public void equipHelmet(Equipment helmet) {  this.equipment[HELMET] = helmet; }
 
     public void equipGloves(Equipment gloves) { this.equipment[GLOVES] = gloves; }
 
@@ -130,5 +131,16 @@ public class Character implements Comparable<Character> {
         int result = Objects.hash(height);
         result = 31 * result + Arrays.hashCode(equipment);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Height: " + height +
+                "\nWeapon: " + equipment[0] +
+                "\nBoots: " + equipment[1] +
+                "\nHelmet: " + equipment[2] +
+                "\nGloves: " + equipment[3] +
+                "\nBreastplate: " + equipment[4] +
+                "\nFitness: " + getFitness();
     }
 }

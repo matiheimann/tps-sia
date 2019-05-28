@@ -29,4 +29,9 @@ public class Equipment {
     public double getResistance() { return resistance; }
 
     public double getHealth() { return health; }
+
+    @Override
+    public String toString() {
+        return String.valueOf(id);
+    }
 }

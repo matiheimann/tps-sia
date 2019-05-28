@@ -53,20 +53,20 @@ public class Configuration {
             expertiseMultiplier = Double.parseDouble(p.getProperty("EXPERTISE_MULTIPLIER", "1.1"));
             resistanceMultiplier = Double.parseDouble(p.getProperty("RESISTANCE_MULTIPLIER", "1.0"));
             healthMultiplier = Double.parseDouble(p.getProperty("HEALTH_MULTIPLIER", "0.8"));
-            populationSize = Integer.parseInt(p.getProperty("POPULATION_SIZE", "10"));
-            selectionSize = Integer.parseInt(p.getProperty("SELECTION_SIZE", "5"));
-            firstSelectionMethod = SelectionMethods.valueOf(p.getProperty("FIRST_SELECTION_METHOD", "ELITE"));
+            populationSize = Integer.parseInt(p.getProperty("POPULATION_SIZE", "300"));
+            selectionSize = Integer.parseInt(p.getProperty("SELECTION_SIZE", "100"));
+            firstSelectionMethod = SelectionMethods.valueOf(p.getProperty("FIRST_SELECTION_METHOD", "UNIVERSAL"));
             secondSelectionMethod = SelectionMethods.valueOf(p.getProperty("SECOND_SELECTION_METHOD", "ELITE"));
-            firstSelectionMethodP = Double.parseDouble(p.getProperty("FIRST_SELECTION_METHOD_PERCENTAGE", "0.8"));
+            firstSelectionMethodP = Double.parseDouble(p.getProperty("FIRST_SELECTION_METHOD_PERCENTAGE", "0.7"));
             tournamentsM = Integer.parseInt(p.getProperty("TOURNAMENTS_M", "2"));
             crossoverP = Double.parseDouble(p.getProperty("CROSSOVER_PROBABILITY", "0.8"));
-            crossoverMethod = CrossoverMethods.valueOf(p.getProperty("CROSSOVER_METHOD", "ONE_POINT_CROSS"));
-            mutationP = Double.valueOf(p.getProperty("MUTATION_PROBABILITY", "0.5"));
+            crossoverMethod = CrossoverMethods.valueOf(p.getProperty("CROSSOVER_METHOD", "TWO_POINT_CROSS"));
+            mutationP = Double.valueOf(p.getProperty("MUTATION_PROBABILITY", "0.1"));
             mutationMethod = MutationMethods.valueOf(p.getProperty("MUTATION_METHOD", "GEN_UNIFORM"));
             replacementMethod = ReplacementMethods.valueOf(p.getProperty("REPLACEMENT_METHOD", "METHOD_1"));
-            firstReplacementMethod = SelectionMethods.valueOf(p.getProperty("FIRST_REPLACEMENT_METHOD", "ELITE"));
+            firstReplacementMethod = SelectionMethods.valueOf(p.getProperty("FIRST_REPLACEMENT_METHOD", "UNIVERSAL"));
             secondReplacementMethod = SelectionMethods.valueOf(p.getProperty("SECOND_REPLACEMENT_METHOD", "ELITE"));
-            firstReplacementMethodP = Double.parseDouble(p.getProperty("FIRST_REPLACEMENT_METHOD_PERCENTAGE", "0.8"));
+            firstReplacementMethodP = Double.parseDouble(p.getProperty("FIRST_REPLACEMENT_METHOD_PERCENTAGE", "0.7"));
             finalizationMethod = FinalizationMethods.valueOf(p.getProperty("FINALIZATION_METHOD", "MAX_GENERATIONS"));
             maxGenerations = Integer.parseInt(p.getProperty("MAX_GENERATIONS", "100"));
             optimalFitness = Double.parseDouble(p.getProperty("OPTIMAL_FITNESS", "2.5"));
@@ -78,5 +78,7 @@ public class Configuration {
             e.printStackTrace();
             System.exit(1);
         }
+
+        System.out.println("Loaded configuration");
     }
 }

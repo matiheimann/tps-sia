@@ -66,12 +66,12 @@ public enum MutationMethods implements Mutation {
     }
 
     private static void mutateGene(Character character, int gene) {
-        if(gene == 5){
+        if(gene == 5) {
             character.setHeight(Rand.randDouble(1.3, 2.0));
         } else {
             int rand = Rand.randInt(EquipmentData.equipments[gene].size() - 1);
             Equipment e = EquipmentData.equipments[gene].get(rand);
-            character.equipElement(e, rand);
+            character.equipElement(e, gene);
         }
     }
 }

@@ -1,7 +1,10 @@
 package ar.edu.itba.sia.tpe.game;
 
 public class Main {
-  public static void main(String[] args) {
-    System.out.println(Rand.randInt(0, 2));
-  }
+
+    public static void main(String[] args) {
+        GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm();
+        geneticAlgorithm.run();
+    }
+
 }
