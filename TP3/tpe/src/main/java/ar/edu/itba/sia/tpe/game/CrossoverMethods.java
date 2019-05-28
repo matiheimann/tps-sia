@@ -53,9 +53,9 @@ public enum CrossoverMethods implements Crossover {
             int firstPoint = Rand.randInt(5);
             int length = Rand.randInt(1, 4);
             for(int i = firstPoint; i < firstPoint + length; i++) {
-                if(i != 5) {
-                    characters[0].equipElement(c2.getEquipment()[i % 5], i % 5);
-                    characters[1].equipElement(c1.getEquipment()[i % 5], i % 5);
+                if(i % 6 != 5) {
+                    characters[0].equipElement(c2.getEquipment()[i % 6], i % 6);
+                    characters[1].equipElement(c1.getEquipment()[i % 6], i % 6);
                 }
                 else{
                     double aux = characters[0].getHeight();
